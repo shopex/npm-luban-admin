@@ -6,7 +6,7 @@
 			<div class="searchbar">
 				<searchbar :items="search"></searchbar>
 			</div>
-			<div class="menus">
+			<div class="menus unselectable">
 				<appmenu :menus="menus"></appmenu>
 			</div>
 			<div class="copyright">

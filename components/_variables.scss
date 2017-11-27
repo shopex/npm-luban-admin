@@ -20,5 +20,11 @@ $taskbar-border-active-color: #1d6d7d;
 // Finder
 $finder-scrollbar-color: #f0f0f0;
 $finder-title-height: 3rem;
+$finder-active-bg: #1b5f73;
+$finder-active-fg: #fff;
+$finder-selected-bg: #ccc;
+
+$finder-title-bg: #999;
+$finder-title-fg: #fff;
 
 @import '~admin_variables.scss';

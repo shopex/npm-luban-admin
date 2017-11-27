@@ -76,13 +76,14 @@ export default {
 	methods: {
 		toggle (i, e){
 			var that = this;
+			var t = this.menus[i].items.length*30;
 			if(this.menus[i].open){
-				$('ul', $(e.target).parent('li')).slideUp(250, function(){
+				$('ul', $(e.target).parent('li')).slideUp(t, function(){
 					that.$set(that.menus[i], "open", false);
 				});
 			}else{
 				that.$set(that.menus[i], "open", true);
-				$('ul', $(e.target).parent('li')).slideDown(250);
+				$('ul', $(e.target).parent('li')).slideDown(t);
 			}
 		}
 	}

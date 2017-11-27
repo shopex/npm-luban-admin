@@ -138,6 +138,7 @@
 							v-if="!col.hidden && !col.lock">
 							{{col.label}}
 						</td>
+						<td></td>
 					</tr>
 				</table>				
 				<div class="finder-content-right" v-on:scroll="scrollRight" ref="right">
@@ -161,8 +162,9 @@
 								<span v-else-if="col.html" v-html="item[col_id]"></span>
 								<span v-else :title="item[col_id]">{{item[col_id]}}</span>
 							</td>
+							<td></td>
 
-						</tr>						
+						</tr>				
 					</table>
 				</div>
 
@@ -196,7 +198,23 @@
 				</transition>
 			</div>
 
-			<div class="finder-detail" ref="detail" v-if="current_detail">
+			<div class="finder-detail" ref="detail" v-if="current_detail!=undefined">
+			  <span class="close-btn" @click="current_detail=undefined">
+			  	<i class="glyphicon glyphicon-remove-circle"></i>
+			  </span>
+			  <ul class="nav nav-tabs" role="tablist">
+			    <li v-for="(panel, panel_id) in finder.infoPanels" 
+			    	v-bind:class="{'active': panel_id==current_panel}">
+			    	<a v-on:click="show_panel(current_detail, panel_id)">{{panel.label}}</a>
+			    </li>
+			  </ul>
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" 
+			    	v-for="(panel, panel_id) in finder.infoPanels" 
+			    	v-if="panel_id==current_panel">
+			    	<div class="finder-detail-content" v-html="finder.data.items[current_detail].panels[panel_id]"></div>
+			    </div>
+			  </div>
 			</div>
 
 			<div 
@@ -236,6 +254,30 @@ $finder-scrollbar-size: 12px;
 .finder-content-right{
 	top: $finder-title-height;
 }
+.finder-row.selected{
+	background: $finder-selected-bg;
+}
+.finder-row.detail{
+	background: $finder-active-bg;
+	color: $finder-active-fg;
+}
+.finder-title{
+	background: $finder-title-bg;
+	color: $finder-title-fg;
+}
+.finder-detail{
+	border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+.finder-detail>.nav-tabs{
+	background: $finder-title-bg;
+	color: $finder-title-fg;	
+}
+.finder-detail>.nav-tabs a{
+	color: $finder-title-fg;	
+}
+.finder-detail>.nav-tabs .active a, .finder-detail>.nav-tabs a:hover{
+	color: $finder-title-bg;
+}
 </style>
 
 <style scoped>
@@ -263,8 +305,19 @@ table{
 	flex:30rem 0;
 	z-index: 100;
 	background: #fff;
+	position: relative;
 }
-
+.finder-detail .close-btn{
+	display: block;
+	cursor: pointer;
+	color: rgba(255,255,255,0.8);
+	position: absolute;
+	right: 0;
+	padding: 0.75rem;
+}
+.finder-detail .close-btn:hover{
+	color: rgba(255,255,255,1);
+}
 .finder-content-left{
 	position: absolute;
 	left: 0;
@@ -278,9 +331,6 @@ table{
 .finder-content-left::-webkit-scrollbar { 
     display: none; 
 }
-.finder-content-left .finder-row{
-	border-left: 0.3rem solid transparent;
-}
 .finder-title-right{
 	z-index: 9;
 }
@@ -289,14 +339,13 @@ table{
     left: 0;
     right: 0;
     bottom: 0;
-	overflow: auto;
+	overflow: scroll;
 }
 .finder-title{
 	position: absolute;
 	top: 0;
 	left: 0;
 	height: 3rem;
-	background: #fff;
 }
 .finder-header{
 	overflow: hidden;
@@ -364,18 +413,6 @@ table{
 	padding: 0 0.5rem;
 	height: 3rem;
 	overflow: hidden;
-}
-.finder-row.detail{
-	border-left-color: #0769ad;
-}
-.finder-row.selected{
-	background: #f0f0f0;
-}
-
-
-
-.finder-detail{
-	border-left: 1px solid #ccc;
 }
 .finder-detail .nav-tabs{
 	padding: 0.5rem 0.5rem 0 0.5rem;
@@ -580,7 +617,7 @@ export default {
 	  		this.items_loading = true;
 			this.current_detail = undefined;
 
-			var filters = this.$refs.filters.data();
+			var filters = this.$refs.filters? this.$refs.filters.data() : [];
 
 			var that = this;
 			$.ajax({
@@ -605,12 +642,21 @@ export default {
 			this.$refs.left_title.style.width = "auto";
 		  	this.leftWidth = $(this.$refs.left_title).width();
 		  	this.$refs.left.style.width = this.leftWidth+"px";
-		  	this.$refs.right.style.paddingLeft = this.leftWidth+"px";		  	
+		  	this.$refs.right.style.paddingLeft = this.leftWidth+"px";
+
+		  	// this.$refs.right.style.minWidth =  - this.leftWidth;
+
 		  	$(this.$refs.left_body).width(this.leftWidth);
 		  	$(this.$refs.left_title).width(this.leftWidth);
 
 			this.$refs.right_title.style.width = "auto";
 		  	var rightWidth = $(this.$refs.right_title).width();
+		  	var w2 = $(this.$refs.content).width() - this.leftWidth;
+
+	  		if(rightWidth < w2){
+	  			rightWidth = w2;
+	  		}
+
 		  	$(this.$refs.right_body).width(rightWidth);
 		  	$(this.$refs.right_title).width(rightWidth);
 
