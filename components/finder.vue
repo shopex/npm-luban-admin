@@ -80,7 +80,7 @@
 					<tr class="finder-row">
 						<td class="col-sel">
 							<label class="finder-col-sel" v-if="select_mode=='multi'">
-								<input type="checkbox" v-on:click="select_all" v-model="v_select_all" />
+								<input type="checkbox" v-on:change="select_all" v-model="v_select_all" />
 							</label>
 							<label class="finder-col-sel" v-if="select_mode=='single'">
 								<input type="radio" style="visibility: hidden" />
