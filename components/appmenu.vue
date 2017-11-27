@@ -17,12 +17,7 @@
 </template>
 
 <style scope lang="scss">
-
-$menu-border-color: rgba(255, 255, 255, 0.5);
-$menu-hover-color: rgba(255, 255, 255, 0.3);
-$menu-fg-color: #ccc;
-$menu-label-height: 3.5rem;
-$menu-icon-color: $menu-fg-color;
+@import '~admin_variables.scss';
 
 ul.appmenu{
 	margin:0;

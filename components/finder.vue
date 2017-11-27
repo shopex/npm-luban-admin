@@ -197,7 +197,6 @@
 			</div>
 
 			<div class="finder-detail" ref="detail" v-if="current_detail">
-				adsfasf
 			</div>
 
 			<div 
@@ -215,16 +214,15 @@
 	</div>
 </template>
 <style scoped lang="scss">
+@import 'variables.scss';
 
-$scrollbar-color: #f0f0f0;
-$scrollbar-size: 12px;
-$title-height: 3rem;
+$finder-scrollbar-size: 12px;
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;
-    width: $scrollbar-size;
-    height: $scrollbar-size;
-    background: $scrollbar-color;
+    width: $finder-scrollbar-size;
+    height: $finder-scrollbar-size;
+    background: $finder-scrollbar-color;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 4px;
@@ -232,11 +230,11 @@ $title-height: 3rem;
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 .finder-content-left{
-    bottom: $scrollbar-size;
-    top: $title-height;
+    bottom: $finder-scrollbar-size;
+    top: $finder-title-height;
 }
 .finder-content-right{
-	top: $title-height;
+	top: $finder-title-height;
 }
 </style>
 
