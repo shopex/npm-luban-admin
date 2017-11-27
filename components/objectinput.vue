@@ -121,9 +121,11 @@ export default {
 		this.baseurl = $('meta[name="admin-baseurl"]').attr('content')+'/admin/component/objectinput/'+this.type;
 		$(this.$refs.modal).on('show.bs.modal', function () {
 			that.load();
+			that.input_value();
 		});
 		if(this.value){
 			this.sync();
+			this.input_value();
 		}
 	},
 	computed: {
@@ -149,6 +151,7 @@ export default {
 		}
 	},
 	methods: {
+
 		open(ev){
 			ev.stopPropagation();
 			ev.preventDefault();
@@ -158,6 +161,7 @@ export default {
 	      	ev.stopPropagation();
 	      	ev.preventDefault();
 			this.$delete(this.values, i);
+			this.input_value();
 		},
 		sync(){
 			var that = this;
@@ -167,6 +171,7 @@ export default {
 				success (rsp){
 					that.values = rsp;
 					that.first_loaded = true;
+					that.input_value();
 				}
 			});
 		},
@@ -195,6 +200,7 @@ export default {
 						$(that.$refs.finderHeader).replaceWith(that.finder.$refs.header);
 						$(that.$refs.finderContent).replaceWith(that.finder.$refs.content);
 						$(that.$refs.finderPager).replaceWith(that.finder.$refs.pager);
+						that.input_value();
 					}
 				});
 				that.loading = true;
@@ -220,7 +226,11 @@ export default {
 					}
 				]
 			}
-		}
+			this.input_value();
+		},
+		input_value: function () {
+	      this.$emit('input_value',this.values)
+	    }
 	},
 	data (){
 		return {
