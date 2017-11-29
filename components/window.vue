@@ -273,7 +273,10 @@ export default {
 	methods: {
 		frame_loaded(){
 			if(this.$refs.body.contentDocument){
-				this.title = this.$refs.body.contentDocument.title;
+				var title = this.$refs.body.contentDocument.title;
+				var index = title.indexOf('<a')
+				title = index>0? title.substring(0,index):title;
+				this.title = title;
 				$(this.$refs.body.contentDocument).on('click', this.link_action);
 				$(this.$refs.body.contentDocument).on('submit', this.form_action);
 			}
