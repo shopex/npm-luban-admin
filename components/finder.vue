@@ -267,6 +267,12 @@ $finder-scrollbar-size: 12px;
 }
 .finder-detail{
 	border-left: 1px solid rgba(255, 255, 255, 0.3);
+	display:flex;
+	flex-direction:column;
+}
+.finder-detail .tab-content{
+	overflow:auto;
+	flex:1;
 }
 .finder-detail>.nav-tabs{
 	background: $finder-title-bg;

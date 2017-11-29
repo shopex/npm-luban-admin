@@ -232,6 +232,7 @@
 
 	.menus{
 		flex: 1 1;
+		overflow:auto;
 	}
 
 	.copyright{
