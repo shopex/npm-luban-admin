@@ -50,6 +50,7 @@
 						:name="win.name"						
 						:initurl="win.url"
 						:initmax="win.is_max"
+						@link="link_action"
 						@max="onMaxChange"
 						@min="onMinChange"
 						@pin="pin"

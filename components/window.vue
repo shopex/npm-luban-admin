@@ -25,14 +25,15 @@
 					<i v-if="closeAble" @click="$emit('close')" class="ico-close glyphicon glyphicon-remove"></i>
 				</div>
 			</div>
-			<div class="w-body" ref="body" 
+			<iframe class="w-body" ref="body" 
 			 	@click="link_action" 
 			 	@submit="form_action"
+			 	@load="frame_loaded"
 				v-bind:style="{
 					width: width+'px',
 					height: height+'px'
 				}">
-			</div>
+			</iframe>
 			<div v-if="resizeAble" class="w-sider-r" @mousedown="start_drag($event, 2)"></div>
 			<div v-if="resizeAble" class="w-sider-b" @mousedown="start_drag($event, 3)"></div>
 			<div v-if="resizeAble" class="w-sider-rb" @mousedown="start_drag($event, 4)"></div>
@@ -90,6 +91,7 @@
 .w-body{
 	background: #fff;
 	position: relative;
+	border:none;
 }
 .w-title{
 	line-height: 2.5rem;
@@ -269,19 +271,29 @@ export default {
 		}
 	},
 	methods: {
+		frame_loaded(){
+			if(this.$refs.body.contentDocument){
+				this.title = this.$refs.body.contentDocument.title;
+				$(this.$refs.body.contentDocument).on('click', this.link_action);
+				$(this.$refs.body.contentDocument).on('submit', this.form_action);
+			}
+		},
 		link_action(ev){
 			var el = this.find_el(ev.target, 'A', 3);
 			if($(el).hasClass('external')){
 				return;
 			}
-			if(el && !$(el).attr('target')){
-				var url = $(el).attr('href');
-				if(url){
-					ev.stopPropagation();
-			        ev.preventDefault();
-					this.load(url);
+			if(el){
+				var target = $(el).attr('target');
+				if(target){
+					if(target.substr(0,6)=='window' || target.substr(0,7)=='window:'){
+						ev.stopPropagation();
+				        ev.preventDefault();
+				        this.$emit('link', ev);
+					}
 				}
 			}
+
 		},
 		form_action(ev){
 			var el = $(ev.target);
@@ -307,6 +319,9 @@ export default {
 			}
 		},		
 		load(url, options){
+			this.$refs.body.src = url;
+			return;
+
 			var that = this;
 			options = options || {};
 			options.success = function(data){
