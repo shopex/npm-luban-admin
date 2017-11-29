@@ -301,6 +301,7 @@ table{
 	right:0;
 	display: flex;
 	overflow: hidden;
+	background: #fff;
 }
 .finder-list{
 	position: relative;
@@ -361,6 +362,8 @@ table{
 }
 .finder-row >>> .col{
 /*	display: inline-block; */
+	word-break: keep-all;
+	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -514,6 +517,7 @@ table{
 }
 .finder-pager >.dropdown > .btn-default{
 	border: none;
+	background: transparent;
 }
 .finder-masker{
 	background: #fff; 
