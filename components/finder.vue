@@ -864,7 +864,7 @@ export default {
 		    unselectable: false,
 			batch_action_target: '',
 			batch_action_confirm: '',
-			batch_action_id: -1,
+			batch_action_id: 0,
 			batch_select_mode: false,
 			batch_select_value: undefined,
 			batch_select_lastidx: 0,

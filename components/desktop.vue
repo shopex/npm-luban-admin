@@ -2,7 +2,7 @@
 	<div v-bind:class="{unselectable: draging}" class="desktop" @click="link_action">
 
 		<div class="sidepanel">
-			<h1 class="brand"><img src='/logo.jpeg' width="239px" hight="40px"/></h1>
+			<div class="brand"><img src='/logo.jpeg' style="width:100%;" /></div>
 			<div class="searchbar">
 				<searchbar :items="search"></searchbar>
 			</div>
@@ -29,6 +29,7 @@
 							{{win.title}}
 						</span>
 						<span class="taskbar-item-split"></span>
+						<span class="close" @click="close(win.id)">X</span>
 					</div>
 				</transition-group>
 				<div class="icons">
@@ -157,6 +158,13 @@
 	.taskbar-item{
 		flex: $task-item-width 0;
 		display: flex;
+		position: relative;
+	}
+	.taskbar-item .close{
+		position: absolute;
+		top:5px;
+		right: 10px;
+		font-size: 16px;
 	}
 	.taskbar-item-title{
 		flex: 1 1;
@@ -372,6 +380,7 @@ export default {
 			var len = this.layers.length;
 			var last_show;
 			for(var i=0;i<len;i++){
+			if(!this.windows[this.layers[i]]) continue ;
 				this.$set(this.windows[this.layers[i]], 'zindex', i);
 				this.$set(this.windows[this.layers[i]], 'isfocus', false);
 				if(this.windows[this.layers[i]].is_min==false){
