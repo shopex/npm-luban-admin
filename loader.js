@@ -9,3 +9,4 @@ Vue.component('finder', require('./components/finder'));
 Vue.component('appmenu', require('./components/appmenu'));
 Vue.component('modal', require('./components/modal'));
 Vue.component('objectinput', require('./components/objectinput'));
+Vue.component('cascader', require('./components/cascader'));
