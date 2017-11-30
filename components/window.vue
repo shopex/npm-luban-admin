@@ -278,7 +278,7 @@ export default {
 				title = index>0? title.substring(0,index):title;
 				this.title = title;
 				$(this.$refs.body.contentDocument).on('click', this.link_action);
-				$(this.$refs.body.contentDocument).on('submit', this.form_action);
+				//$(this.$refs.body.contentDocument).on('submit', this.form_action);
 			}
 		},
 		link_action(ev){
