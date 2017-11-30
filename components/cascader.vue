@@ -2,7 +2,7 @@
   <div class="cascader">
     <input type="hidden" :name="namevalue" v-model="selectedop">
     <el-cascader
-      :options="options"
+      :options="regionJson"
       v-model="selectedop"
     @change="handleChange">
     ></el-cascader>
@@ -14,7 +14,7 @@
   import Vue from 'vue'
   import Element from 'element-ui'
   import 'element-ui/lib/theme-chalk/index.css'
-  // var region = require('../region.json');
+  var region = require('../region.json');
   Vue.use(Element)
   
   export default {
@@ -24,7 +24,8 @@
     },
     data() {
       return {
-        selectedop:[]
+        selectedop:[],
+        regionJson:this.options?this.options:region
       };
     },
     props: {
@@ -37,7 +38,7 @@
       options: {
         type: Array,
         default () {
-          return []
+          return null
         },
       },
       namevalue: {

@@ -254,6 +254,10 @@ $finder-scrollbar-size: 12px;
 .finder-content-right{
 	top: $finder-title-height;
 }
+.finder-row:hover{
+	background: #3097D1;
+	color:#fff;
+}
 .finder-row.selected{
 	background: $finder-selected-bg;
 }
