@@ -1,6 +1,6 @@
 <template>
   <div class="cascader">
-    <input type="hidden" :name="nameValue" v-model="selectedop">
+    <input type="hidden" :name="namevalue" v-model="selectedop">
     <el-cascader
       :options="options"
       v-model="selectedop"
@@ -40,7 +40,7 @@
           return []
         },
       },
-      nameValue: {
+      namevalue: {
         type: String,
         default () {
           return ""
