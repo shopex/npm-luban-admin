@@ -173,7 +173,7 @@
 						<div>
 							<span>{{selected.length}}</span>
 
-							<form v-bind:target="batch_action_target" 
+							<form ref="formbtn" v-bind:target="batch_action_target" 
 								  v-bind:data-modal-confirm="batch_action_confirm"
 								  method="POST">
 								<input type="hidden" name="finder_request" value="batch_action" />
@@ -183,7 +183,7 @@
 
 								<div class="btn-group" role="group">
 									<button v-for="(action, idx) in finder.batchActions"
-											v-on:click="submit(idx, action.target, action.confirm)"
+											v-on:click="submit(idx, action.target, action.confirm, $event)"
 											type="submit"
 											class="btn btn-default">
 											{{action.label}}
@@ -837,11 +837,14 @@ export default {
 		radio_check(idx){
 			this.radio_label = this.finder.data.items[idx][0];
 		},
-		submit (idx, target, confirm){
+		submit (idx, target, confirm,$event){
+			// $event.preventDefault();
+			// $event.target.submit();
 			this.batch_action_id = idx;
 			this.batch_action_target = target;
 			this.batch_action_confirm = confirm;
 			this.csrf_token = $('meta[name="csrf-token"]').attr('content');
+			// this.$nextTick(function(){this.$refs.formbtn.submit();})
 		}
 	  },
 	  data (){
@@ -864,7 +867,7 @@ export default {
 		    unselectable: false,
 			batch_action_target: '',
 			batch_action_confirm: '',
-			batch_action_id: 0,
+			batch_action_id: -1,
 			batch_select_mode: false,
 			batch_select_value: undefined,
 			batch_select_lastidx: 0,

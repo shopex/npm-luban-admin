@@ -73,6 +73,9 @@ export default {
 			"deprem": 2.5
 		}
 	},
+	mounted(){
+		console.log(this.menus)
+	},
 	methods: {
 		toggle (i, e){
 			var that = this;
