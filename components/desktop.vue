@@ -19,7 +19,7 @@
 			<div class="topbar">
 				<transition-group name="taskbar" class="taskbar unselectable">
 					<div v-for="win in windows"
-						class="taskbar-item"					
+						class="taskbar-item"
 						:id="'taskbar-'+win.id"
 						:class="{active: win.isfocus}"
 						:key="win.id">
@@ -48,7 +48,7 @@
 						:zindex="((win.is_pin && !win.is_max)?500:10)+win.zindex"
 						:isfocus="win.isfocus"
 						:id="win.id"
-						:name="win.name"						
+						:name="win.name"
 						:initurl="win.url"
 						:initmax="win.is_max"
 						@link="link_action"
@@ -72,7 +72,7 @@
 <style scoped>
 .topbar >>> a, .topbar >>> a:hover{
 	text-decoration: none;
-	color: #333; 
+	color: #333;
 }
 .topbar >>> .topbar-icon{
 	font-size: 150%;
@@ -137,7 +137,7 @@
 	left: 0;
 	right: 0;
 	height: topbar-height;
-	background: $topbar-bg;	
+	background: $topbar-bg;
 
 	.topbar-shadow{
 		position: absolute;
@@ -147,7 +147,7 @@
 		right: 0;
 		z-index: -20;
 		background: transparent;
-		box-shadow:0px 0px 10px rgba(0,0,0,0.3);	
+		box-shadow:0px 0px 10px rgba(0,0,0,0.3);
 	}
 	.taskbar{
 		line-height: $topbar-height;
@@ -196,7 +196,7 @@
 		height: $topbar-height;
 		text-align: right;
 		line-height: $topbar-height;
-		padding-left: 1rem;		
+		padding-left: 1rem;
 		padding-right: 1rem;
 		background: $topbar-bg;
 	}
@@ -216,10 +216,12 @@
 }
 
 .sidepanel{
-	background: $sidebar-bg;
+	// background: $sidebar-bg;
+	background: linear-gradient(45deg,#0f1e48,#0690df);
 	border-right:1px solid #ccc;
 	flex: $sidebar-width 0;
-	color: sidebar-fg;
+	// color: sidebar-fg;
+	color:#fff;
 	display: flex;
 	flex-direction: column;
 
@@ -291,7 +293,7 @@ export default {
 						this.open(url, win_name);
 					}
 					ev.stopPropagation();
-			        ev.preventDefault();					
+			        ev.preventDefault();
 				}
 			}
 		},
@@ -397,7 +399,7 @@ export default {
 		},
 		close(id){
 			this.layers = this.delete(this.layers, id);
-			this.$delete(this.windows, id);			
+			this.$delete(this.windows, id);
 		},
 		onTitleChange(id, title){
 			this.windows[id].title = title;

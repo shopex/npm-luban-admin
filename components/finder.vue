@@ -3,8 +3,8 @@
 			<div class="finder-action-bar" ref="actionbar">
 				<div>
 					<div class="btn-group" role="group">
-						<a v-for="(action, idx) in finder.actions" 
-							class="btn btn-default" 
+						<a v-for="(action, idx) in finder.actions"
+							class="btn btn-default"
 							v-bind:href="action_url[idx]"
 							v-bind:data-modal-title="action.label"
 							v-bind:data-modal-confirm="action.confirm"
@@ -61,14 +61,14 @@
 			</div>
 
 			<div class="finder-header" ref="header">
-				<form class="finder-search-bar" v-on:submit="reload()" 
+				<form class="finder-search-bar" v-on:submit="reload()"
 					v-if="'workdesk'!=finder.tab_id && finder.searchs && finder.searchs.length>0">
 					<filters :searchs="finder.searchs" @change="reload" ref="filters"></filters>
 				</form>
 
 				<div class="finder-workdesk-bar" v-if="!disable_workdesk && 'workdesk'==finder.tab_id">
 					操作台: 一个临时收纳台.
-					<button class="btn btn-default btn-sm" 
+					<button class="btn btn-default btn-sm"
 					v-bind:disabled="this.workdesk.length==0"
 					v-on:click="clear_workdesk">清空列表</button>
 				</div>
@@ -86,41 +86,41 @@
 								<input type="radio" style="visibility: hidden" />
 							</label>
 						</td>
-						<td v-for="(col, col_id) in finder.cols" 
-							v-bind:class="col_class[col_id]" 
+						<td v-for="(col, col_id) in finder.cols"
+							v-bind:class="col_class[col_id]"
 							v-if="!col.hidden && col.lock">
 							{{col.label}}
 						</td>
 					</tr>
 				</table>
 				<div class="finder-content-left" ref="left" v-on:scroll="scrollLeft" >
-					<table class="finder-body" 
+					<table class="finder-body"
 						v-if="finder.data"
 						 ref="left_body"
-						v-on:mouseup="sel_mup($event)" 
+						v-on:mouseup="sel_mup($event)"
 						v-bind:class="{'unselectable': unselectable}">
 
-						<tr class="finder-row" 
-									v-for="(item,idx) in finder.data.items" 
+						<tr class="finder-row"
+									v-for="(item,idx) in finder.data.items"
 									v-on:mouseout="sel_mout(idx,$event)"
 									v-on:mouseover="sel_mover(idx,$event)"
 									v-on:click="toggle_detail(idx, $event)"
 									v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
 								<td class="col-sel">
-									<label class="finder-col-sel" 
+									<label class="finder-col-sel"
 										v-on:mousedown="sel_mdown(idx,$event)"
 										v-if="select_mode=='multi'">
 										<input type="checkbox" v-model="checkbox[idx]" />
 									</label>
 									<label class="finder-col-sel" v-else-if="select_mode=='single'">
-										 <input type="radio" 
-												@click="radio_check(idx)" 
-												name="finder-select" 
+										 <input type="radio"
+												@click="radio_check(idx)"
+												name="finder-select"
 												:value="item.$id" v-model="radio" />
 									</label>
 								</td>
-								<td v-for="(col, col_id) in finder.cols" 
-									v-bind:class="col_class[col_id]" 
+								<td v-for="(col, col_id) in finder.cols"
+									v-bind:class="col_class[col_id]"
 									v-if="!col.hidden && col.lock">
 									<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
 										{{item[col_id].date}}
@@ -133,27 +133,27 @@
 				</div>
 				<table class="finder-title finder-title-right" ref="right_title">
 					<tr class="finder-row">
-						<td v-for="(col, col_id) in finder.cols" 
-							v-bind:class="col_class[col_id]" 
+						<td v-for="(col, col_id) in finder.cols"
+							v-bind:class="col_class[col_id]"
 							v-if="!col.hidden && !col.lock">
 							{{col.label}}
 						</td>
 						<td></td>
 					</tr>
-				</table>				
+				</table>
 				<div class="finder-content-right" v-on:scroll="scrollRight" ref="right">
-					<table class="finder-body" 
+					<table class="finder-body"
 						v-if="finder.data"
 						ref="right_body"
-						v-on:mouseup="sel_mup($event)" 
+						v-on:mouseup="sel_mup($event)"
 						v-bind:class="{'unselectable': unselectable}">
 
-						<tr class="finder-row" 
-									v-for="(item,idx) in finder.data.items" 
+						<tr class="finder-row"
+									v-for="(item,idx) in finder.data.items"
 									v-on:click="toggle_detail(idx, $event)"
 									v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
 
-							<td v-for="(col, col_id) in finder.cols" 
+							<td v-for="(col, col_id) in finder.cols"
 								 v-bind:class="col_class[col_id]"
 								 v-if="!col.hidden && !col.lock">
 								<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
@@ -164,7 +164,7 @@
 							</td>
 							<td></td>
 
-						</tr>				
+						</tr>
 					</table>
 				</div>
 
@@ -173,7 +173,7 @@
 						<div>
 							<span>{{selected.length}}</span>
 
-							<form ref="formbtn" v-bind:target="batch_action_target" 
+							<form ref="formbtn" v-bind:target="batch_action_target"
 								  v-bind:data-modal-confirm="batch_action_confirm"
 								  method="POST">
 								<input type="hidden" name="finder_request" value="batch_action" />
@@ -189,7 +189,7 @@
 											{{action.label}}
 									</button>
 								</div>
-								
+
 								<button v-if="'workdesk'==finder.tab_id" v-on:click="del_workdesk($event)" class="btn btn-default">移出操作台</button>
 								<button v-else v-on:click="put_workdesk($event)" class="btn btn-default">放入操作台</button>
 							</form>
@@ -203,23 +203,23 @@
 			  	<i class="glyphicon glyphicon-remove-circle"></i>
 			  </span>
 			  <ul class="nav nav-tabs" role="tablist">
-			    <li v-for="(panel, panel_id) in finder.infoPanels" 
+			    <li v-for="(panel, panel_id) in finder.infoPanels"
 			    	v-bind:class="{'active': panel_id==current_panel}">
 			    	<a v-on:click="show_panel(current_detail, panel_id)">{{panel.label}}</a>
 			    </li>
 			  </ul>
 			  <div class="tab-content">
-			    <div role="tabpanel" class="tab-pane active" 
-			    	v-for="(panel, panel_id) in finder.infoPanels" 
+			    <div role="tabpanel" class="tab-pane active"
+			    	v-for="(panel, panel_id) in finder.infoPanels"
 			    	v-if="panel_id==current_panel">
 			    	<div class="finder-detail-content" v-html="finder.data.items[current_detail].panels[panel_id]"></div>
 			    </div>
 			  </div>
 			</div>
 
-			<div 
-				v-show="items_loading" 
-				class="finder-masker" 
+			<div
+				v-show="items_loading"
+				class="finder-masker"
 				ref="loading"
 				v-bind:style="{'background': masker_bgcolor}">
 				<div class="loading">
@@ -255,8 +255,8 @@ $finder-scrollbar-size: 12px;
 	top: $finder-title-height;
 }
 .finder-row:hover{
-	background: #3097D1;
-	color:#fff;
+	background: #eaf2f6;
+	color:#666;
 }
 .finder-row.selected{
 	background: $finder-selected-bg;
@@ -266,8 +266,10 @@ $finder-scrollbar-size: 12px;
 	color: $finder-active-fg;
 }
 .finder-title{
-	background: $finder-title-bg;
-	color: $finder-title-fg;
+	// background: $finder-title-bg;
+	// color: $finder-title-fg;
+	background:#eaf2f6;
+	color:#666;
 }
 .finder-detail{
 	border-left: 1px solid rgba(255, 255, 255, 0.3);
@@ -280,10 +282,10 @@ $finder-scrollbar-size: 12px;
 }
 .finder-detail>.nav-tabs{
 	background: $finder-title-bg;
-	color: $finder-title-fg;	
+	color: $finder-title-fg;
 }
 .finder-detail>.nav-tabs a{
-	color: $finder-title-fg;	
+	color: $finder-title-fg;
 }
 .finder-detail>.nav-tabs .active a, .finder-detail>.nav-tabs a:hover{
 	color: $finder-title-bg;
@@ -334,13 +336,13 @@ table{
 	left: 0;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	-ms-overflow-style: none; 
+	-ms-overflow-style: none;
 	overflow: -moz-scrollbars-none;
     z-index: 10;
     background: #fff;
 }
-.finder-content-left::-webkit-scrollbar { 
-    display: none; 
+.finder-content-left::-webkit-scrollbar {
+    display: none;
 }
 .finder-title-right{
 	z-index: 9;
@@ -375,37 +377,37 @@ table{
 	width: 6rem;
 }
 .finder-row >>> .col-2{
-	width: 12rem;	
+	width: 12rem;
 }
 .finder-row >>> .col-3{
-	width: 18rem;	
+	width: 18rem;
 }
 .finder-row >>> .col-4{
-	width: 24rem;	
+	width: 24rem;
 }
 .finder-row >>> .col-5{
-	width: 30rem;	
+	width: 30rem;
 }
 .finder-row >>> .col-6{
-	width: 36rem;	
+	width: 36rem;
 }
 .finder-row >>> .col-7{
-	width: 42rem;	
+	width: 42rem;
 }
 .finder-row >>> .col-8{
-	width: 48rem;	
+	width: 48rem;
 }
 .finder-row >>> .col-9{
-	width: 54rem;	
+	width: 54rem;
 }
 .finder-row >>> .col-10{
-	width: 60rem;	
+	width: 60rem;
 }
 .finder-row >>> .col-11{
-	width: 66rem;	
+	width: 66rem;
 }
 .finder-row >>> .col-12{
-	width: 72rem;	
+	width: 72rem;
 }
 
 .finder-col-sel{
@@ -471,10 +473,10 @@ table{
 	border-top-right-radius: 1rem;
 	border-bottom: none;
 	background: #000;
-	color: #ccc;	
+	color: #ccc;
 }
 .finder-batch-action-bar>div span{
-	border:0.5rem solid #000;	
+	border:0.5rem solid #000;
 	background: #666;
 	color: #ccc;
 	position: absolute;
@@ -496,10 +498,10 @@ table{
 	line-height: 3rem;
 }
 .finder-tabber{
-	flex:1; 
+	flex:1;
 	padding-left: 2.5rem;
-	margin:-0.4rem; 
-	display: flex; 
+	margin:-0.4rem;
+	display: flex;
 	align-items: flex-end;
 }
 .finder-tabber .nav-tabs{
@@ -524,11 +526,11 @@ table{
 	background: transparent;
 }
 .finder-masker{
-	background: #fff; 
-	z-index: 9999; 
-	position: absolute; 
-	width: 100%; 
-	height: 100%; 
+	background: #fff;
+	z-index: 9999;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 	padding-top: 10vh;
 	left:0; top:0;
 }
@@ -637,8 +639,8 @@ export default {
 			$.ajax({
 				'url': this.finder.baseUrl,
 				'data': {
-					'finder_request':'data', 
-					'page': page, 
+					'finder_request':'data',
+					'page': page,
 					'sort': this.finder.sort_id,
 					'tab_id': this.finder.tab_id,
 					'filters': JSON.stringify(filters)
@@ -773,7 +775,7 @@ export default {
 				this.reload(0);
 			}
 		},
-		show_panel (item_idx, panel_id){	
+		show_panel (item_idx, panel_id){
 			if(!this.finder.data.items[item_idx]){
 				return;
 			}
@@ -787,8 +789,8 @@ export default {
 				$.ajax({
 					'url': this.finder.baseUrl,
 					'data': {
-						'finder_request':'detail', 
-						'panel_id': panel_id, 
+						'finder_request':'detail',
+						'panel_id': panel_id,
 						'item_id': this.finder.data.items[item_idx].$id
 					}
 				}).done(function(response){
