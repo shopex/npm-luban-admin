@@ -185,7 +185,7 @@
 									<button v-for="(action, idx) in finder.batchActions"
 											v-on:click="submit(idx, action.target, action.confirm, $event)"
 											type="submit"
-											class="btn btn-default">
+											class="btn btn-default specialbtn">
 											{{action.label}}
 									</button>
 								</div>
@@ -840,13 +840,15 @@ export default {
 			this.radio_label = this.finder.data.items[idx][0];
 		},
 		submit (idx, target, confirm,$event){
-			// $event.preventDefault();
-			// $event.target.submit();
+			$event.preventDefault();
 			this.batch_action_id = idx;
 			this.batch_action_target = target;
 			this.batch_action_confirm = confirm;
 			this.csrf_token = $('meta[name="csrf-token"]').attr('content');
-			// this.$nextTick(function(){this.$refs.formbtn.submit();})
+			
+			if(!target){
+				this.$nextTick(function(){this.$refs.formbtn.submit();})
+			}
 		}
 	  },
 	  data (){

@@ -123,21 +123,38 @@ $(function(){
 	      if(el.tagName!='A'){
 	        el = $(el).parents('a');
 	        if(el.length==0){
-	          return;
+	        }else{
+        	      el = $(el);
+        	      var href = el.attr('href');
+        	      var modal = getModal(el, e, function(modal){
+        		      	modal.title = el.attr('data-modal-title');
+
+        		        $.ajax({
+        		        	url: href
+        		        }).done(function(ret){
+        		        	modal.loading = false;
+        		        	$(modal.$refs.body).html(ret);
+        		        });
+        	      });
 	        }
 	      }
-	      el = $(el);
-	      var href = el.attr('href');
-	      var modal = getModal(el, e, function(modal){
-		      	modal.title = el.attr('data-modal-title');
-
-		        $.ajax({
-		        	url: href
-		        }).done(function(ret){
-		        	modal.loading = false;
-		        	$(modal.$refs.body).html(ret);
-		        });
-	      });
+	      if(e.target.className.indexOf('specialbtn')>=0){
+      	      setTimeout(function(){
+      	      	      var els = $(e.target).parents('form');
+      	      	      getModal(els, e, function(modal){
+      	      			modal.title = els.attr('data-modal-title');
+      	      	        $.ajax({
+      	      	        	url: href,
+      	      	            method: els.attr('method'),
+      	      	            data: els.serialize()
+      	      	        }).done(function(ret){
+      	      	        	modal.loading = false;
+      	      	        	$(modal.$refs.body).html(ret);
+      	      	        });
+      	      	      });
+      	      	  },300)
+	      }
+	      
 	  });
 	}
 
