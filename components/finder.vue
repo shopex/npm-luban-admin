@@ -183,7 +183,7 @@
 
 								<div class="btn-group" role="group">
 									<button v-for="(action, idx) in finder.batchActions"
-											v-on:click="submit(idx, action.target, action.confirm, $event)"
+											v-on:click="submit(idx, action.target, action.confirm,action.url, $event)"
 											type="submit"
 											class="btn btn-default specialbtn">
 											{{action.label}}
@@ -839,13 +839,13 @@ export default {
 		radio_check(idx){
 			this.radio_label = this.finder.data.items[idx][0];
 		},
-		submit (idx, target, confirm,$event){
+		submit (idx, target, confirm, url, $event){
 			$event.preventDefault();
 			this.batch_action_id = idx;
 			this.batch_action_target = target;
 			this.batch_action_confirm = confirm;
 			this.csrf_token = $('meta[name="csrf-token"]').attr('content');
-			
+			if(url) this.$refs.formbtn.action = url;
 			if(!target){
 				this.$nextTick(function(){this.$refs.formbtn.submit();})
 			}
