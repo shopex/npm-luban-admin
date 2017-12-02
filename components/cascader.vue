@@ -74,6 +74,9 @@
       },
       itemChange(v){
         var that = this;
+        var pro =  window.location.protocol
+        var host = window.location.host
+        console.log(pro,host)
         p = new Promise(function(resolve, reject){
           if(that.options) return;
           var k = 0;
@@ -84,7 +87,7 @@
           }
           $.ajax({
             'type':'get',
-            'url': 'http://tcl.com/'+'getRegion?itemid='+that.itemid,
+            'url': pro+'//'+host+'/getRegion?itemid='+that.itemid,
             complete (){
               // that.items_loading = false;
             }
