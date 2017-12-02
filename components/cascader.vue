@@ -29,8 +29,10 @@
         })
         function initv(){
             k++;
+            console.log(k,that.selectedval.length)
             if(k>=that.selectedval.length) {
               that.selectedop = that.selectedval;
+              console.log(that.selectedop,that.selectedval,5678)
               return};
             that.itemChange(that.selectedval.slice(0,k))
             p.then(function(){
@@ -76,7 +78,6 @@
         var that = this;
         var pro =  window.location.protocol
         var host = window.location.host
-        console.log(pro,host)
         p = new Promise(function(resolve, reject){
           if(that.options) return;
           var k = 0;
@@ -90,6 +91,7 @@
             'url': pro+'//'+host+'/getRegion?itemid='+that.itemid,
             complete (){
               // that.items_loading = false;
+              // 今天真jiba累！
             }
           }).done(function(response){
               if(!response.length) return;
