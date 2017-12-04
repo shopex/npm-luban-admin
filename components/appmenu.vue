@@ -16,7 +16,7 @@
   </ul>
 </template>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 @import '~admin_variables.scss';
 
 ul.appmenu{
@@ -50,6 +50,7 @@ ul.appmenu{
 			line-height: $menu-label-height;
 			width: 2rem;
 			text-align: center;
+			z-index:-1;
 		}
 	}
 

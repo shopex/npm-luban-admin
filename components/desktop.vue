@@ -92,7 +92,7 @@
 	right: 0;
 	bottom: 0;
 	overflow: hidden;
-
+	z-index:-1;
 	.background{
 		z-index: -99;
 		position: absolute;
@@ -224,7 +224,7 @@
 	color:#fff;
 	display: flex;
 	flex-direction: column;
-
+	z-index:-1;
 	.searchbar input{
 		background: rgba(255,255,255, 0.2);
 		border: 1px solid rgba(255,255,255, 0.5);
