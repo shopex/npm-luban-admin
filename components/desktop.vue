@@ -2,7 +2,7 @@
 	<div v-bind:class="{unselectable: draging}" class="desktop" @click="link_action">
 
 		<div class="sidepanel">
-			<div class="brand"><img src='/logo.jpeg' style="width:100%;" /></div>
+			<div class="brand"><img src='/logo.png' style="width:100%;" /></div>
 			<div class="searchbar">
 				<searchbar :items="search"></searchbar>
 			</div>

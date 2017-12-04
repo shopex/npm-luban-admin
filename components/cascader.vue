@@ -29,10 +29,8 @@
         })
         function initv(){
             k++;
-            console.log(k,that.selectedval.length)
             if(k>=that.selectedval.length) {
               that.selectedop = that.selectedval;
-              console.log(that.selectedop,that.selectedval,5678)
               return};
             that.itemChange(that.selectedval.slice(0,k))
             p.then(function(){
