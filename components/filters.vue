@@ -27,10 +27,10 @@
 	  </div>
 	  <div class="form-group">
 	  	<template v-if="typeof(search.type)=='object'">
-		  	<select name="value[]" v-model="search.value" v-on:change="changed()">
+		  	<select name="value[]" v-model="search.value" v-on:change="search.value&&changed()">
+		  		<option value="" selected="selected">请选择</option>
 		  		<template v-for="(val, key, index) in search.type" >
-		    		<option :value="val" v-if="index == 0 " selected> {{key}} </option>
-		    		<option :value="val" v-else> {{key}} </option>
+		    		<option :value="key" > {{val}} </option>
 		    	</template>
 		    </select>
 		</template>
