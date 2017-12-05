@@ -2,6 +2,7 @@
   <div class="cascader">
     <input type="hidden" :name="namevalue" v-model="selectedop">
     <el-cascader
+      style="width:100%;height:100%;"
       :options="regionJson"
       v-model="selectedop"
       :expand-trigger="acttype"
@@ -11,7 +12,12 @@
   </div>
 
 </template>
+<style scoped >
+.cascader{
+  width:300px;
 
+}
+</style>
 <script>
   import Vue from 'vue'
   import Element from 'element-ui'
