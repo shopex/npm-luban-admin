@@ -2,7 +2,7 @@
   <div class="cascader">
     <input type="hidden" :name="namevalue" v-model="selectedop">
     <el-cascader
-      style="width:100%;height:100%;"
+      style="width:100%;"
       :options="regionJson"
       v-model="selectedop"
       :expand-trigger="acttype"
