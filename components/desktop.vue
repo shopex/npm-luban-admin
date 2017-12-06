@@ -29,7 +29,7 @@
 							{{win.title}}
 						</span>
 						<span class="taskbar-item-split"></span>
-						<span class="close" @click="close(win.id)">X</span>
+						<span class="close" @click.prevent="close(win.id)">X</span>
 					</div>
 				</transition-group>
 				<div class="icons">
@@ -165,6 +165,9 @@
 		top:5px;
 		right: 10px;
 		font-size: 16px;
+		border: 2px solid #dcdcdc;
+		border-radius: 50%;
+		background: #dcdcdc;
 	}
 	.taskbar-item-title{
 		flex: 1 1;
@@ -177,6 +180,8 @@
 		white-space: nowrap;
 		border-top: 3px solid $taskbar-border-color;
 		max-width: $task-item-width;
+		border-left:1px solid #dcdcdc;
+		border-right:1px solid #dcdcdc;
 	}
 	.active .taskbar-item-title{
 		background: $topbar-active-bg;
