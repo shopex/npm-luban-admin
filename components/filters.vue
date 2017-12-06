@@ -1,9 +1,22 @@
 <template>
 <div>
 	<div class="form-inline" v-for="(search, idx) in searchs">
+	  <!-- label -->
 	  <div class="form-group">
-	    <label>{{search.label}}</label>
+	  	<template v-if="typeof(search.key)=='object'">
+		  	<select name="value[]" v-model="search.field" v-on:change="search.field&&search.value&&changed()">
+		  		<option value="" selected="selected">{{search.label}}</option>
+		  		<template v-for="(val1, key1, index) in search.key" >
+		    		<option :value="key1" > {{val1}} </option>
+		    	</template>
+		    </select>
+		</template>
+		<template  v-else>
+			<label >{{search.label}}</label>
+	    	<input type="hidden" name="value[]" v-model="search.field" />
+	    </template>
 	  </div>
+	  <!-- model -->
 	  <div class="form-group">
 	    <select name="mode[]" v-model="search.mode" 
 	    	v-on:change="search.value&&changed()" v-if="search.type=='string'">
@@ -25,6 +38,7 @@
 	    	<input type="hidden" name="mode[]" value="=" />
 	    </span>
 	  </div>
+	  <!-- value -->
 	  <div class="form-group">
 	  	<template v-if="typeof(search.type)=='object'">
 		  	<select name="value[]" v-model="search.value" v-on:change="search.value&&changed()">
@@ -62,7 +76,7 @@ export default {
 			var filters = [];
 			for(var i=0; i<this.searchs.length; i++){
 				if(this.searchs[i].value){
-					filters.push([i, this.searchs[i].value, this.searchs[i].mode]);
+					filters.push([i, this.searchs[i].value, this.searchs[i].mode,this.searchs[i].field]);
 				}
 			}
 			return filters;
