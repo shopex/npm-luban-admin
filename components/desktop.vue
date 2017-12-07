@@ -241,8 +241,8 @@
 }
 
 .sidepanel{
-	// background: $sidebar-bg;
-	background: linear-gradient(45deg,#0f1e48,#0690df);
+	background: $sidebar-bg;
+	// background: linear-gradient(45deg,#0f1e48,#0690df);
 	border-right:1px solid #ccc;
 	flex: $sidebar-width 0;
 	// color: sidebar-fg;
