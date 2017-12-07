@@ -1,71 +1,75 @@
 <template>
 	<div v-bind:class="{unselectable: draging}" class="desktop" @click="link_action">
-
-		<div class="sidepanel">
-			<div class="brand"><img src='/logo.png' style="width:100%;" /></div>
+		<div class="top">
+			<div class="brand"><img src='/logo.png'></div>
 			<div class="searchbar">
 				<searchbar :items="search"></searchbar>
 			</div>
-			<div class="menus unselectable">
-				<appmenu :menus="menus"></appmenu>
-			</div>
-			<div class="copyright">
-				<slot name="copyright"></slot>
+			<div class="icons">
+				<slot name="topbar"></slot>
 			</div>
 		</div>
-
-		<div class="main">
-
-			<div class="topbar">
-				<transition-group name="taskbar" class="taskbar unselectable">
-					<div v-for="win in windows"
-						class="taskbar-item"
-						:id="'taskbar-'+win.id"
-						:class="{active: win.isfocus}"
-						:key="win.id">
-						<span class="taskbar-item-title"
-								@click.prevent="show(win.id)"
-								@mouseup.middle.prevent="close(win.id)">
-							{{win.title}}
-						</span>
-						<span class="taskbar-item-split"></span>
-						<span class="close" @click.prevent="close(win.id)">X</span>
-					</div>
-				</transition-group>
-				<div class="icons">
-					<slot name="topbar"></slot>
+		<div class="deskmain">
+			<div class="sidepanel">
+				<div class="menus unselectable">
+					<appmenu :menus="menus"></appmenu>
 				</div>
-				<div class="topbar-shadow"></div>
+				<div class="copyright">
+					<slot name="copyright"></slot>
+				</div>
 			</div>
 
-			<div class="workspace" ref="workspace">
-				<transition-group name="window">
-					<window v-for="win in windows" ref="win" :key="win.id"
-						:left="win.left"
-						:top="win.top"
-						:initwidth="win.width"
-						:initheight="win.height"
-						:zindex="((win.is_pin && !win.is_max)?500:10)+win.zindex"
-						:isfocus="win.isfocus"
-						:id="win.id"
-						:name="win.name"
-						:initurl="win.url"
-						:initmax="win.is_max"
-						@link="link_action"
-						@max="onMaxChange"
-						@min="onMinChange"
-						@pin="pin"
-						@url="onUrlChange"
-						@focus="active(win.id)"
-						@close="close(win.id)"
-						@dragend="draging=false;active(win.id)"
-						@title="onTitleChange"
-						@dragstart="draging=true"></window>
-				</transition-group>
+			<div class="main">
+
+				<div class="topbar">
+					<transition-group name="taskbar" class="taskbar unselectable">
+						<div v-for="win in windows"
+							class="taskbar-item"
+							:id="'taskbar-'+win.id"
+							:class="{active: win.isfocus}"
+							:key="win.id">
+							<span class="taskbar-item-title"
+									@click.prevent="show(win.id)"
+									@mouseup.middle.prevent="close(win.id)">
+								{{win.title}}
+							</span>
+							<span class="taskbar-item-split"></span>
+							<span class="close" @click.prevent="close(win.id)">X</span>
+						</div>
+					</transition-group>
+					
+					<div class="topbar-shadow"></div>
+				</div>
+
+				<div class="workspace" ref="workspace">
+					<transition-group name="window">
+						<window v-for="win in windows" ref="win" :key="win.id"
+							:left="win.left"
+							:top="win.top"
+							:initwidth="win.width"
+							:initheight="win.height"
+							:zindex="((win.is_pin && !win.is_max)?500:10)+win.zindex"
+							:isfocus="win.isfocus"
+							:id="win.id"
+							:name="win.name"
+							:initurl="win.url"
+							:initmax="win.is_max"
+							@link="link_action"
+							@max="onMaxChange"
+							@min="onMinChange"
+							@pin="pin"
+							@url="onUrlChange"
+							@focus="active(win.id)"
+							@close="close(win.id)"
+							@dragend="draging=false;active(win.id)"
+							@title="onTitleChange"
+							@dragstart="draging=true"></window>
+					</transition-group>
+				</div>
 			</div>
+
+			<div class="background"></div>
 		</div>
-
-		<div class="background"></div>
 	</div>
 </template>
 
@@ -86,13 +90,7 @@
 
 .desktop{
 	display: flex;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	z-index:-1;
+	flex-direction:column;
 	.background{
 		z-index: -99;
 		position: absolute;
@@ -100,6 +98,40 @@
 		right:0;
 		top:0;
 		bottom: 0;
+	}
+	.top{
+		height:4rem;background:$finder-top-color;
+		display:flex;    align-items: center;
+		.brand{
+			height:100%;
+			color: #f0f0f0;
+			flex:1;
+			display:flex;
+			align-items:center;
+			img{
+				height:3rem;
+				width:auto;
+				margin-left: 3rem;
+			}
+		}
+		.icons{
+			min-width: $topbar-icons-width;
+			text-align: right;
+			line-height: $topbar-height;
+			padding-left: 1rem;
+			padding-right: 1rem;
+			padding:0 2rem;
+		}
+	}
+	.deskmain{
+		display: flex;
+		position: absolute;
+		top: 4rem;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		overflow: hidden;
+		z-index:-1;
 	}
 }
 
@@ -193,18 +225,6 @@
 		background: transparent;
 		margin: 5px 2px;
 	}
-	.icons{
-		position: absolute;
-		right: 0;
-		top: 0;
-		min-width: $topbar-icons-width;
-		height: $topbar-height;
-		text-align: right;
-		line-height: $topbar-height;
-		padding-left: 1rem;
-		padding-right: 1rem;
-		background: $topbar-bg;
-	}
 }
 
 .main{
@@ -233,12 +253,6 @@
 	.searchbar input{
 		background: rgba(255,255,255, 0.2);
 		border: 1px solid rgba(255,255,255, 0.5);
-	}
-
-	.brand{
-		flex: 4rem 0;
-		text-align: center;
-		color: #f0f0f0;
 	}
 
 	.searchbar{

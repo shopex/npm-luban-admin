@@ -1,7 +1,7 @@
 <template>
 <span class="dropdown">
   <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="glyphicon glyphicon-globe topbar-icon"></i>
+    <i class="glyphicon glyphicon-globe topbar-icon head-icon"></i>
   </a>
   <ul class="dropdown-menu dropdown-menu-right app-sel">
     <li v-for="item in items">
@@ -19,6 +19,11 @@
 	width:22rem;
 	margin:0;
 	padding:1rem;
+}
+.head-icon{
+	margin-right:6px;
+	font-size:3rem;
+	line-height: 3rem;
 }
 .app-sel li{
 	float:left;
