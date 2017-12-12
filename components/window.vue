@@ -42,8 +42,8 @@
 	</div>
 </template>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import 'variables.scss';
 .w-body >>> .error-page{
 	position: absolute;
 	left: 0;
@@ -109,7 +109,7 @@
 	white-space: pre;
 }
 .w-head{
-	display: flex;
+	display: $finder-w-header;
 	color: #999;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;

@@ -1,18 +1,6 @@
 <template>
 	<div>
 			<div class="finder-action-bar" ref="actionbar">
-				<div>
-					<div class="btn-group" role="group">
-						<a v-for="(action, idx) in finder.actions"
-							class="btn btn-default"
-							v-bind:href="action_url[idx]"
-							v-bind:data-modal-title="action.label"
-							v-bind:data-modal-confirm="action.confirm"
-							v-bind:target="action.target ?action.target:'window'">
-							{{action.label}}
-						</a>
-					</div>
-				</div>
 				<div class="finder-tabber">
 					  <ul class="nav nav-tabs" role="tablist">
 					    <li v-for="(panel, tab_id) in finder.tabs" v-bind:class="{'active': tab_id==finder.tab_id}">
@@ -28,6 +16,19 @@
 					    </li>
 					  </ul>
 				</div>
+				<div>
+					<div class="btn-group" role="group">
+						<a v-for="(action, idx) in finder.actions"
+							class="btn"
+							v-bind:href="action_url[idx]"
+							v-bind:data-modal-title="action.label"
+							v-bind:data-modal-confirm="action.confirm"
+							v-bind:target="action.target ?action.target:'window'">
+							{{action.label}}
+						</a>
+					</div>
+				</div>
+				
 				<div class="finder-pager" v-if="finder.data" ref="pager">
 					<span class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
@@ -290,6 +291,10 @@ $finder-scrollbar-size: 12px;
 .finder-detail>.nav-tabs .active a, .finder-detail>.nav-tabs a:hover{
 	color: $finder-title-bg;
 }
+.finder-action-bar  .btn-group a{
+	border:1px solid $finder-basecolor;
+	color:$finder-basecolor;
+}
 </style>
 
 <style scoped>
@@ -498,8 +503,7 @@ table{
 	line-height: 3rem;
 }
 .finder-tabber{
-	flex:1;
-	padding-left: 2.5rem;
+	padding-right: 1rem;
 	margin:-0.4rem;
 	display: flex;
 	align-items: flex-end;
