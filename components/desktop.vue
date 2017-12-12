@@ -250,7 +250,7 @@
 		    &.left{
 		    	transform: rotate(-55deg);
 		    	transform-origin: right 0;
-			    left: -2.7rem;
+			    left: -2.76rem;
 			    width:2.7rem;
 			    top: -1px;
 		    }
