@@ -22,8 +22,11 @@
 }
 .head-icon{
 	margin-right:6px;
-	font-size:3rem;
-	line-height: 3rem;
+	font-size:3.5rem;
+	color:#fff;
+	vertical-align: middle;
+	height:3rem;
+	width:3rem;
 }
 .app-sel li{
 	float:left;

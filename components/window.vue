@@ -451,7 +451,7 @@ export default {
 			}, 50 ,function(){
 				that.masker.hide();
 				that.win.css('left', that.normal_stat.left);
-				that.win.css('top', that.normal_stat.top);
+				that.win.css('top', parseInt(that.normal_stat.top)<0?0:that.normal_stat.top);
 				that.width = that.normal_stat.width;
 				that.height = that.normal_stat.height;
 				that.is_max = false;
@@ -514,9 +514,11 @@ export default {
 		},
 		on_mousemove(e){
 			if(this.draging.working){
+				var top = this.draging.startOffset.top + (e.pageY - this.draging.startY);
+				top = top<48? 48:top;
 				if(this.draging.type==1){
 					this.draging.currentOffset = {left: this.draging.startOffset.left + (e.pageX - this.draging.startX),
-								top: this.draging.startOffset.top + (e.pageY - this.draging.startY)};
+								top: top};
 					this.masker.offset(this.draging.currentOffset);
 				}else if(this.draging.type==2){
 					if(this.draging.startWidth + (e.pageX - this.draging.startX) > this.minWidth){

@@ -32,9 +32,10 @@
 									@click.prevent="show(win.id)"
 									@mouseup.middle.prevent="close(win.id)">
 								{{win.title}}
+							<em></em>
 							</span>
 							<span class="taskbar-item-split"></span>
-							<span class="close" @click.prevent="close(win.id)">X</span>
+							<span class="close" style="z-index:99999" @click.prevent="close(win.id)">X</span>
 						</div>
 					</transition-group>
 					
@@ -109,7 +110,7 @@
 			display:flex;
 			align-items:center;
 			img{
-				height:3rem;
+				height:2.6rem;
 				width:auto;
 				margin-left: 3rem;
 			}
@@ -143,7 +144,7 @@
 }
 
 .window-enter-active, .window-leave-active {
-  transition: all .2s;
+  transition: all  .2s;
   z-index: 999;
 }
 .window-enter, .window-leave-to{
@@ -191,12 +192,18 @@
 		flex: $task-item-width 0;
 		display: flex;
 		position: relative;
+		z-index: 199;
+		top:1px;
+		max-width:16rem;
+		&.active{
+			z-index:999;
+		}
 	}
 	.taskbar-item .close{
 		position: absolute;
-		top:5px;
-		right: 10px;
-		font-size: 16px;
+		top:0.8rem;
+		right: 0.2rem;
+		font-size: 1.3rem;
 		border: 2px solid #dcdcdc;
 		border-radius: 50%;
 		background: #dcdcdc;
@@ -204,21 +211,46 @@
 	.taskbar-item-title{
 		flex: 1 1;
 		padding: 0 0.5rem;
-		overflow: hidden;
+		font-size:1.2rem;
+		line-height: 3.8rem;
 		text-overflow: ellipsis;
 		cursor: pointer;
-		display: flex;
-		align-items: center;
+		display: flex ;
 		white-space: nowrap;
-		border-top: 3px solid $taskbar-border-color;
 		max-width: $task-item-width;
-		border-left:1px solid #dcdcdc;
-		border-right:1px solid #dcdcdc;
+		justify-content:center;
+		background-image:url("~/images/tabs.png");
+		background-position: 0 0.65rem ;
+		background-size: 60rem 26rem;
+		background-repeat: no-repeat;
+		position: relative;
+		padding-left:1rem;
+		&:hover{
+			background-position: 0 -8.8rem ;
+			em{
+				background-position: -58.3rem -13.5rem ;
+			}	
+		}
+		em{
+			position: absolute;
+			height:100%;
+			width:1.5rem;
+			right: -1.5rem;top:0;
+			background-image:url("~/images/tabs.png");
+			background-position: -58.3rem -4rem;
+			background-repeat: no-repeat;
+			background-size: 60rem 26rem;
+		}
+
 	}
 	.active .taskbar-item-title{
-		background: $topbar-active-bg;
+		// background: $topbar-active-bg;
 		cursor: default;
-		border-color: $taskbar-border-active-color;
+		// border-color: $taskbar-border-active-color;
+		background-position: 0 -18.2rem ;
+		em {
+			background-position: -58.3rem -22.8rem ;
+		}
 	}
 	.taskbar-item-split{
 		flex: 1px 0;
@@ -237,6 +269,7 @@
 		right: 0;
 		bottom: 0;
 		top: $topbar-height;
+		z-index:999;
 	}
 }
 

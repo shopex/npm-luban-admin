@@ -53,14 +53,12 @@
 	    </template>
 	  </div>
 	</div>
-	  <div class="btn" @click="changed()">搜索</div>
+	  <div class="btn btn-primary" @click="changed()">搜索</div>
 </div>	
 </template>
 
 <style scoped>
 .btn{
-	display: inline-block;
-	border:1px solid #ccc;
     line-height: 1;
 }
 </style>
