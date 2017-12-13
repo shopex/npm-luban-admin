@@ -87,6 +87,7 @@
 	border-top: 1px solid #ccc;
 	box-shadow: none;
 	border-left: 1px solid #ccc;
+	height: 100%;
 }
 .w-body{
 	background: #fff;
@@ -403,10 +404,11 @@ export default {
 			});
 		},
 		full(){
+			var hei = $(this.$refs.title).css('display') =="none" ? 0:$(this.$refs.title).height();
 			this.win.css('left', 0);
 			this.win.css('top', 0);
 			this.width = $(this.$el).width();
-			this.height = $(this.$el).height() - $(this.$refs.title).height();
+			this.height = $(this.$el).height() - hei;
 		},
 		taskbarOffset(){
 			var taskbar = $('#taskbar-'+this.id);

@@ -41,7 +41,7 @@
 	  <!-- value -->
 	  <div class="form-group">
 	  	<template v-if="typeof(search.type)=='object'">
-		  	<select name="value[]" v-model="search.value" v-on:change="search.value&&changed()">
+		  	<select name="value[]" v-model="search.value" v-on:change="search.value||search.value=='0'&&changed()">
 		  		<option value="" selected="selected">请选择</option>
 		  		<template v-for="(val, key, index) in search.type" >
 		    		<option :value="key" > {{val}} </option>

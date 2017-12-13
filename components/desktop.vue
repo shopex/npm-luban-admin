@@ -20,7 +20,6 @@
 			</div>
 
 			<div class="main">
-
 				<div class="topbar">
 					<transition-group name="taskbar" class="taskbar unselectable">
 						<div v-for="win in windows"
