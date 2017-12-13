@@ -4,7 +4,7 @@
 	  <!-- label -->
 	  <div class="form-group">
 	  	<template v-if="typeof(search.key)=='object'">
-		  	<select name="value[]" v-model="search.field" v-on:change="search.field&&search.value&&changed()">
+		  	<select name="value[]" v-model="search.field" v-on:change="search.field&&changed()">
 		  		<option value="" selected="selected">{{search.label}}</option>
 		  		<template v-for="(val1, key1, index) in search.key" >
 		    		<option :value="key1" > {{val1}} </option>
@@ -41,7 +41,7 @@
 	  <!-- value -->
 	  <div class="form-group">
 	  	<template v-if="typeof(search.type)=='object'">
-		  	<select name="value[]" v-model="search.value" v-on:change="search.value||search.value=='0'&&changed()">
+		  	<select name="value[]" v-model="search.value" v-on:change="changed()">
 		  		<option value="" selected="selected">请选择</option>
 		  		<template v-for="(val, key, index) in search.type" >
 		    		<option :value="key" > {{val}} </option>
@@ -73,9 +73,10 @@ export default {
 		data (){
 			var filters = [];
 			for(var i=0; i<this.searchs.length; i++){
-				if(this.searchs[i].value){
-					filters.push([i, this.searchs[i].value, this.searchs[i].mode,this.searchs[i].field]);
-				}
+				filters.push([i, this.searchs[i].value, this.searchs[i].mode,this.searchs[i].field]);
+				// if(this.searchs[i].value||this.searchs[i].value=='0'){
+				// 	filters.push([i, this.searchs[i].value, this.searchs[i].mode,this.searchs[i].field]);
+				// }
 			}
 			return filters;
 		}
