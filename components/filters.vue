@@ -60,6 +60,7 @@
 <style scoped>
 .btn{
     line-height: 1;
+    margin-left: 2.5rem;
 }
 </style>
 
