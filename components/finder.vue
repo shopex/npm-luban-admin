@@ -377,7 +377,12 @@ table{
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding-left: 2.5rem;
 }
+.finder-row >>> .col span a{
+		margin-left:5px;
+}
+.finder-row >>> .col span a:first-child{margin-left: 0;}
 .finder-row >>> .col-1 {
 	width: 6rem;
 }
