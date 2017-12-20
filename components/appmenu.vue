@@ -88,6 +88,19 @@ export default {
 			}else{
 				that.$set(that.menus[i], "open", true);
 				$('ul', $(e.target).parent('li')).slideDown(t);
+				 $.each($(e.target).parent('li').siblings(),function(){
+				 	if($(this).find('ul').css('display')=='block'){
+				 		$(this).find('ul').slideUp(that.menus[$(this).index()].items.length*30, function(){
+						})
+				 	}
+				 })
+				 for(var j=0;j<that.menus.length;j++){
+				 	if(j==i){
+				 		continue;
+				 	}else{
+				 		that.$set(that.menus[j], "open", false);
+				 	}
+				 }
 			}
 		}
 	}
