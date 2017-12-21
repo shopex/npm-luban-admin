@@ -114,7 +114,8 @@
 }
 .modal-body{
 	padding:0;
-	min-height: 30vh;	
+	min-height: 30vh;
+	width:100%;overflow: auto;	
 }
 .multiple .fade-enter-active,.multiple .fade-leave-active {
   transition: opacity .3s
