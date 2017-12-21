@@ -29,8 +29,9 @@
 					<div ref="finderPager"></div>
 				</div>
 		        <h4 class="modal-title">请选择</h4>
+		        <div class="searchbox"><filters :searchs="filterArr" @change="load" ref="filters"></filters></div>
 		      </div>
-		      <div class="modal-body">
+		      <div class="modal-body" :style="{height:height}">
 		      	<div ref="finderHeader"></div>
 		      	<div ref="finderContent">
 		      		<div class="loading">
@@ -72,6 +73,21 @@
 	cursor: default;
 	margin:5px 0 5px 5px;
 	display: inline-block;
+}
+.searchbox{
+	position: absolute;
+	left: 9rem;
+	top: 1.3rem;
+	height: 36px;
+	width: 30rem;
+	overflow: auto;
+}
+.searchbox >>> .form-inline{
+	display: inline-block;
+    margin: 0 0 0 3rem;
+}
+.searchbox >>> .form-inline:first-child{
+	margin:0;
 }
 .outter .label>.glyphicon{
 	cursor: pointer;
@@ -115,7 +131,7 @@
 
 <script>
 export default {
-	props: ["name", "value", "multiple", "type", "filters"],
+	props: ["name", "value", "multiple", "type", "filters",'height'],
 	mounted(){
 		var that = this;
 		this.baseurl = $('meta[name="admin-baseurl"]').attr('content')+'/admin/component/objectinput/'+this.type;
@@ -183,8 +199,12 @@ export default {
 				this.finder.reload();
 			}else if(!this.loading){
 				$(document.body).append(this.$refs.modal);
+				var filters = this.$refs.filters? this.$refs.filters.data() : [];
 				$.ajax({
 					url: this.baseurl,
+					data:{
+						'filters': JSON.stringify(filters)
+					},
 					complete (){
 						that.loading = false;
 					},
@@ -196,7 +216,8 @@ export default {
 								select_mode: (that.is_multiple?'multi':'single')
 							}
 						}).$mount();
-
+						console.log(88,that.finder.finder.searchs,99)
+						that.filterArr = that.finder.finder.searchs
 						$(that.$refs.finderHeader).replaceWith(that.finder.$refs.header);
 						$(that.$refs.finderContent).replaceWith(that.finder.$refs.content);
 						$(that.$refs.finderPager).replaceWith(that.finder.$refs.pager);
@@ -238,7 +259,8 @@ export default {
 			values: [],
 			baseurl: '',
 			loading: false,
-			finder: undefined
+			finder: undefined,
+			filterArr:[],
 		}
 	}
 }
