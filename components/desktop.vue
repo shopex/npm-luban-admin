@@ -12,7 +12,7 @@
 		<div class="deskmain">
 			<div class="sidepanel">
 				<div class="menus unselectable">
-					<appmenu :menus="menus"></appmenu>
+					<appmenu @changetit="changetit" :menus="menus"></appmenu>
 				</div>
 				<div class="copyright">
 					<slot name="copyright"></slot>
@@ -55,6 +55,7 @@
 							:name="win.name"
 							:initurl="win.url"
 							:initmax="win.is_max"
+							:titlenow="titlenow"
 							@link="link_action"
 							@max="onMaxChange"
 							@min="onMinChange"
@@ -330,7 +331,8 @@ export default {
 			win_id: 0,
 			title: "",
 			windows: {},
-			layers: []
+			layers: [],
+			titlenow:'',
 		}
 	},
 	mounted(){
@@ -339,6 +341,9 @@ export default {
 		window.$desktop = this;
 	},
 	methods: {
+		changetit(v){
+			this.titlenow =v;
+		},
 		link_action(ev){
 			var el = this.find_el(ev.target, 'A', 3);
 			if(el){

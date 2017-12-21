@@ -8,10 +8,10 @@
 		<a :style="{'padding-left': (depth*deprem)+'rem'}" 
 			v-if="item.items" v-on:click="toggle(i, $event)">{{item.label}}</a>
 		<a :style="{'padding-left': (depth*deprem)+'rem'}"
-			v-else v-bind:href="item.link" :target="'window:'+(path?(path+'-'+i):i)">
+			v-else v-bind:href="item.link" @click="changetit(item.label)" :target="'window:'+(path?(path+'-'+i):i)">
 			{{item.label}}
 		</a>
-		<appmenu :level="depth+1" :menus="item.items" :path="path?(path+'-'+i):i"></appmenu>
+		<appmenu :level="depth+1" @changetit="changetit" :menus="item.items" :path="path?(path+'-'+i):i"></appmenu>
 	</li>
   </ul>
 </template>
@@ -71,13 +71,16 @@ export default {
 	},
 	data (){
 		return {
-			"deprem": 2.5
+			"deprem": 2.5,
 		}
 	},
 	mounted(){
 		console.log(this.menus)
 	},
 	methods: {
+		changetit(v){
+			this.$emit('changetit',v)
+		},
 		toggle (i, e){
 			var that = this;
 			var t = this.menus[i].items.length*30;

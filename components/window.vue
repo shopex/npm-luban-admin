@@ -205,7 +205,7 @@
 export default {
 	props: ["left", "top", "zindex", "isfocus", 
 			"initwidth", "initheight", "name",
-			"id", "initurl", "initmax"],
+			"id", "initurl", "initmax", "titlenow"],
 	data() {
 		return {
 			width: 640,
@@ -255,7 +255,7 @@ export default {
 			that.$emit('min', that.id, that.is_min);
 		});
 
-		this.title = "title";
+		this.title = this.titlenow;
 		if(this.initurl){
 			this.load(this.initurl);
 			this.url = this.initurl;
