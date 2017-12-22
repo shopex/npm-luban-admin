@@ -10,3 +10,7 @@ Vue.component('appmenu', require('./components/appmenu'));
 Vue.component('modal', require('./components/modal'));
 Vue.component('objectinput', require('./components/objectinput'));
 Vue.component('cascader', require('./components/cascader'));
+/*封装element.ui*/
+Vue.component('selector', require('./newcomponents/selector'));
+Vue.component('luban-input', require('./newcomponents/luban-input'));
+Vue.component('datepicker', require('./newcomponents/datepicker'));
