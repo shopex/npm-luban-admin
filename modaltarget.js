@@ -120,24 +120,6 @@ $(function(){
 
 	  $(el).bind('click', function(e){
 	      var el = e.target;
-	      if(el.tagName!='A'){
-	        el = $(el).parents('a');
-	        if(el.length==0){
-	        }else{
-        	      el = $(el);
-        	      var href = el.attr('href');
-        	      var modal = getModal(el, e, function(modal){
-        		      	modal.title = el.attr('data-modal-title');
-
-        		        $.ajax({
-        		        	url: href
-        		        }).done(function(ret){
-        		        	modal.loading = false;
-        		        	$(modal.$refs.body).html(ret);
-        		        });
-        	      });
-	        }
-	      }
 	      if(e.target.className.indexOf('specialbtn')>=0){
       	      setTimeout(function(){
       	      	      var els = $(e.target).parents('form');
@@ -153,6 +135,25 @@ $(function(){
       	      	        });
       	      	      });
       	      	  },300)
+	      }else {
+	      		if(el.tagName!='A'){
+	      		  el = $(el).parents('a');
+	      		}
+	      		if(el.length!=0){
+      		  	      el = $(el);
+      		  	      var href = el.attr('href');
+      		  	      var modal = getModal(el, e, function(modal){
+      		  		      	modal.title = el.attr('data-modal-title');
+
+      		  		        $.ajax({
+      		  		        	url: href
+      		  		        }).done(function(ret){
+      		  		        	modal.loading = false;
+      		  		        	$(modal.$refs.body).html(ret);
+      		  		        });
+      		  	      });
+	      		 }
+	  	        
 	      }
 	      
 	  });
