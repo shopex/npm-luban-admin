@@ -157,7 +157,7 @@
 							<td v-for="(col, col_id) in finder.cols"
 								 v-bind:class="col_class[col_id]"
 								 v-if="!col.hidden && !col.lock">
-								<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
+								<span v-if="typeof(item[col_id])=='object' && item[col_id] && item[col_id].date">
 									{{item[col_id].date}}
 								</span>
 								<span v-else-if="col.html" v-html="item[col_id]"></span>
