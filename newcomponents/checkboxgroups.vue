@@ -76,7 +76,7 @@
 		    	  'type':'get',
 		    	  'url':"{{url('basedata_producttree/getSmallCate')}}",
 		    	  'data':{
-		    	  	id:'10345',
+		    	  	id:id,
 		    	  },
 		    	  complete (){
 		    	  }
