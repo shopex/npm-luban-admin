@@ -14,3 +14,4 @@ Vue.component('cascader', require('./components/cascader'));
 Vue.component('selector', require('./newcomponents/selector'));
 Vue.component('luban-input', require('./newcomponents/luban-input'));
 Vue.component('datepicker', require('./newcomponents/datepicker'));
+Vue.component('checkboxgroups', require('./newcomponents/checkboxgroups'));
