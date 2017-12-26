@@ -6,14 +6,16 @@
 			<el-checkbox-group class="group" v-model="item.choice" @change="handleCheckedCitiesChange(key)">
 				<el-checkbox v-for="(child,i) in item.children" :label="child" :key="child.id" @change="checkedChange(key,i,$event)">{{child.content}}</el-checkbox>
 			</el-checkbox-group>
-
-			<div v-if="item.children[i].children" v-for="(child,i) in item.children" style="padding-left:30px;" >
-				选择产品小类&nbsp;&nbsp;{{child.content}}（共<span class="num">{{child.children.length}}</span>项目，已选<span class="num">{{child.choice.length}}</span>项目）
-				<el-checkbox :indeterminate="child.isIndeterminate" v-model="child.checkAll" @change="changeall(key,i)">全选</el-checkbox>
-				<el-checkbox-group class="group" style="padding-left:30px;" v-model="child.choice" @change="handleChange(key,i)">
-					<el-checkbox v-for="(grandchild,i) in child.children" :label="grandchild" :key="grandchild.id">{{grandchild.content}}</el-checkbox>
-				</el-checkbox-group>
+			<div  v-for="(child,i) in item.children" style="padding-left:30px;">
+				<div v-if="child.children" >
+					选择产品小类&nbsp;&nbsp;{{child.content}}（共<span class="num">{{child.children.length}}</span>项目，已选<span class="num">{{child.choice.length}}</span>项目）
+					<el-checkbox :indeterminate="child.isIndeterminate" v-model="child.checkAll" @change="changeall(key,i)">全选</el-checkbox>
+					<el-checkbox-group class="group" v-model="child.choice" @change="handleChange(key,i)">
+						<el-checkbox v-for="(grandchild,i) in child.children" :label="grandchild" :key="grandchild.id">{{grandchild.content}}</el-checkbox>
+					</el-checkbox-group>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 </template>
@@ -35,7 +37,6 @@
 		},
 		mounted(){
 			var that = this;
-			console.log(this.url,99)
 		},
 		methods: {
 		    handleCheckAllChange(val) {
@@ -69,6 +70,7 @@
 		    },
 		    //生成子集
 		    checkedChange(k,i,$ev){
+		    	console.log($ev,6)
 		    	$ev ? this.getData(k,i) : this.closeData(k,i);
 		    },
 		    closeData(k,i){
@@ -76,8 +78,6 @@
 		    },
 		    getData(k,i){
 		    	var that = this;
-		    	var pro =  window.location.protocol
-		    	var host = window.location.host
  
 		    	var data = this.choiceGroup[k].children[i];
 		    	var id = data.id;
@@ -90,11 +90,12 @@
 		    	  complete (){
 		    	  }
 		    	}).done(function(response){
+		    		response = JSON.parse(response)
 		    	    if(!response.length) return;
-		    	    data.isIndeterminate=false,
-					data.checkAll=false,
-					data.choice=[],
-					data.children = response;
+					that.$set(that.choiceGroup[k].children[i],'children',response)
+					that.$set(that.choiceGroup[k].children[i],'isIndeterminate',false)
+					that.$set(that.choiceGroup[k].children[i],'checkAll',false)
+					that.$set(that.choiceGroup[k].children[i],'choice',[])
 		    	});
 		    },
 		},
