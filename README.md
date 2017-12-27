@@ -5,6 +5,7 @@
  <luban-input></luban-input>  输入框（可以邮箱、密码、手机号验证）；可以将input由’inputtype‘设置为’textarea‘类型
 <datepicker></datepicker> 日期选择器（可传入选择日期的起始日期）
 <cascader></cascader>  联级选择器
+<el-date-picker></el-date-picker> 日期时间选择器 
 
  1. <selector></selector> 参数：
  {
@@ -41,4 +42,11 @@
     namevalue:input框隐藏域的nama值,
     selectedval:初始值,
     options:联级选择数据（可以不传，不传默认为地址选择器）
+ }
+ 5.<el-date-picker></el-date-picker> 参数：
+ {
+    type:'datatime' (必传参数：日期和时间同时选择)
+    name:input框隐藏域的nama值,
+    v-model:初始值（*必须为变量）
+    placeholder:可传，暂默认值,
  }
