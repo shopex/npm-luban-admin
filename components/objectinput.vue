@@ -200,11 +200,11 @@ export default {
 				this.finder.reload();
 			}else if(!this.loading){
 				$(document.body).append(this.$refs.modal);
-				var filters = this.$refs.filters? this.$refs.filters.data() : [];
+				var filters = this.filters? this.filters.data() : '[]';
 				$.ajax({
 					url: this.baseurl,
 					data:{
-						'filters': JSON.stringify(filters)
+						'filters': filters
 					},
 					complete (){
 						that.loading = false;
@@ -217,7 +217,6 @@ export default {
 								select_mode: (that.is_multiple?'multi':'single')
 							}
 						}).$mount();
-						console.log(88,that.finder.finder.searchs,99)
 						that.filterArr = that.finder.finder.searchs
 						$(that.$refs.finderHeader).replaceWith(that.finder.$refs.header);
 						$(that.$refs.finderContent).replaceWith(that.finder.$refs.content);
@@ -251,7 +250,7 @@ export default {
 			this.input_value();
 		},
 		input_value: function () {
-	      this.$emit('input_value',this.values)
+	      this.$emit('input_value',this.return_value)
 	    }
 	},
 	data (){
