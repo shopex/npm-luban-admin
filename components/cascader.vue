@@ -4,6 +4,7 @@
     <el-cascader
       style="width:100%;"
       :options="regionJson"
+      :size="size"
       v-model="selectedop"
       :expand-trigger="acttype"
       @active-item-change="itemChange"
@@ -67,6 +68,12 @@
         },
       },
       namevalue: {
+        type: String,
+        default () {
+          return ""
+        },
+      },
+      size: {
         type: String,
         default () {
           return ""
