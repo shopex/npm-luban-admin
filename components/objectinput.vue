@@ -200,7 +200,7 @@ export default {
 				this.finder.reload();
 			}else if(!this.loading){
 				$(document.body).append(this.$refs.modal);
-				var filters = this.filters? this.filters.data() : '[]';
+				var filters = this.filters? this.filters : '[]';
 				$.ajax({
 					url: this.baseurl,
 					data:{
