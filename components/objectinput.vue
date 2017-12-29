@@ -132,7 +132,7 @@
 
 <script>
 export default {
-	props: ["name", "value", "multiple", "type", "filters",'height'],
+	props: ["name", "value", "multiple", "type", "filters",'height', 'width'],
 	mounted(){
 		var that = this;
 		this.baseurl = $('meta[name="admin-baseurl"]').attr('content')+'/admin/component/objectinput/'+this.type;

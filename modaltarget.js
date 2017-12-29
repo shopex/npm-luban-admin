@@ -24,7 +24,8 @@ $(function(){
 				var target = el.attr('target');			
 				var modal = false;
 				var size = 'normal';
-
+				var height = el.attr('modal-height')
+				var width = el.attr('modal-width')
 				if(target=='#modal-normal'){
 					modal = true;
 				}else if(target=='#modal'){
@@ -35,6 +36,8 @@ $(function(){
 				}else if(target=='#modal-small'){
 					modal = true;
 					size = 'small';
+				}else if(target=='#modal-custom'){
+					modal = true;
 				}
 
 				if(modal){
@@ -44,6 +47,8 @@ $(function(){
 					}else if(size=='small'){
 						component.small = true;
 					}
+					if(height) $(component.$el).find('.modal-body').height(height+'px')
+					if(width) $(component.$el).find('.modal-dialog').width(width+'px')
 					component.loading = true;
 					component.minH = '40vh';
 					ev.stopPropagation();

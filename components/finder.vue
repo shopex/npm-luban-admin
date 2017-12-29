@@ -23,6 +23,8 @@
 							v-bind:href="action_url[idx]"
 							v-bind:data-modal-title="action.label"
 							v-bind:data-modal-confirm="action.confirm"
+							v-bind:modal-height="action['modal_height']"
+							v-bind:modal-width="action['modal_width']"
 							v-bind:target="action.target ?action.target:'window'">
 							{{action.label}}
 						</a>
