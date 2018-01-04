@@ -74,7 +74,7 @@
 		    	$ev ? this.getData(k,i) : this.closeData(k,i);
 		    },
 		    closeData(k,i){
-		    	if(this.choiceGroup[k].children[i].children) this.choiceGroup[k].children[i].children =[];
+		    	if(this.choiceGroup[k].children[i].children) this.choiceGroup[k].children[i].children =null;
 		    },
 		    getData(k,i){
 		    	var that = this;
