@@ -1,16 +1,20 @@
 <template>
-	<a href="#" class="outter" @click="open($event)" v-bind:class="{multiple: is_multiple}">
-			<transition-group name="fade" v-if="first_loaded">
-			  <span class="label" 
-			  		v-bind:class="{'label-primary':!item.remove, 'label-danger':item.remove}"
-			  		v-bind:key="item.value"
-			  		v-for="(item, i) in values">
-					{{item.label}}
-					<i  @mouseover="$set(item,'remove',true)"
-						@mouseout="$set(item,'remove',false)"
-						@click="remove(i,$event)"
-						class="glyphicon glyphicon-remove"></i>
-			  </span>
+	<a href="#"  @click="open($event)" v-bind:class="{multiple: is_multiple,'btn btn-primary': botton_type,'outter': !botton_type}">
+			<template v-if="botton_type">
+				<span >{{buttonname}}</span>
+			</template>	
+			<template v-else>
+				<transition-group name="fade" v-if="first_loaded">
+				  <span class="label" 
+				  		v-bind:class="{'label-primary':!item.remove, 'label-danger':item.remove}"
+				  		v-bind:key="item.value"
+				  		v-for="(item, i) in values">
+						{{item.label}}
+						<i  @mouseover="$set(item,'remove',true)"
+							@mouseout="$set(item,'remove',false)"
+							@click="remove(i,$event)"
+							class="glyphicon glyphicon-remove"></i>
+				  </span>
 			  </transition-group>
 	      		<div class="loading" v-else>
 				  <div class="bounce1"></div>
@@ -19,7 +23,7 @@
 				</div>
 
 			  <input type="hidden" :name="name" :value="return_value" />
-
+			</template>	
 		<div class="modal" tabindex="-1" role="dialog" ref="modal">
 		  <div class="modal-dialog modal-lg" role="document">
 		    <div class="modal-content">
@@ -132,7 +136,7 @@
 
 <script>
 export default {
-	props: ["name", "value", "multiple", "type", "filters",'height', 'width'],
+	props: ["name", "value", "multiple", "type", "filters",'height', 'width', "button","buttonname"],
 	mounted(){
 		var that = this;
 		this.baseurl = $('meta[name="admin-baseurl"]').attr('content')+'/admin/component/objectinput/'+this.type;
@@ -158,6 +162,13 @@ export default {
 		},
 		is_multiple(){
 			return this.multiple!=undefined;
+		},
+		botton_type(){
+			if (this.button !=undefined) {
+				return true
+			}else{
+				return false
+			}
 		},
 		values_map(){
 			var ret = {};
@@ -243,7 +254,8 @@ export default {
 				this.values = [
 					{
 						value: this.finder.radio,
-						label: this.finder.radio_label
+						label: this.finder.radio_label,
+						data:this.finder.radio_data
 					}
 				]
 			}
@@ -251,6 +263,8 @@ export default {
 		},
 		input_value: function () {
 	      this.$emit('input_value',this.return_value)
+	      console.log(this.values)
+	      this.$emit('change',this.values)
 	    }
 	},
 	data (){

@@ -623,7 +623,8 @@ export default {
 	  			if(this.checkbox[i]==true){
 	  				ret.push({
 	  					value: this.finder.data.items[i].$id,
-	  					label: this.finder.data.items[i][0]
+	  					label: this.finder.data.items[i][0],
+	  					data: this.finder.data.items[i]
 	  				});
 	  			}
 	  		}
@@ -849,6 +850,7 @@ export default {
 		},
 		radio_check(idx){
 			this.radio_label = this.finder.data.items[idx][0];
+			this.radio_data = this.finder.data.items[idx];
 		},
 		submit (idx, target, confirm, url, $event){
 			$event.preventDefault();
@@ -870,6 +872,7 @@ export default {
 		    checkbox: [],
 		    radio: undefined,
 		    radio_label: "",
+		    radio_data: "",
 		    disable_workdesk: false,
 		    workdesk: [],
 		    workdesk_ids: {},
