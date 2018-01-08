@@ -6,6 +6,8 @@
 <datepicker></datepicker> 日期选择器（可传入选择日期的起始日期）
 <cascader></cascader>  联级选择器
 <el-date-picker></el-date-picker> 日期时间选择器 
+<checkboxgroups2></checkboxgroups2>  产品树大类>小类>服务方式
+
 
  1. <selector></selector> 参数：
  {
@@ -50,4 +52,16 @@
     name:input框隐藏域的nama值,
     v-model:初始值（*必须为变量）
     placeholder:可传，暂默认值,
+ }
+
+ 6.<checkboxgroups2></checkboxgroups2> 参数：
+ {
+    options:固定厂商下的业务线需求下的品牌名称数组集合
+    url:点击产品大类选择产品小类接口,
+    lasturl:点击产品小类选择服务方式接口,
+    ajaxdata:  {
+                    参数1:厂商id,
+                    参数2:业务线id,
+                    参数3:品牌名称id,
+                },
  }
