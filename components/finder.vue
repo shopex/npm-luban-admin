@@ -562,6 +562,9 @@ table{
 	line-height: 2rem;
 	margin:0.5rem 5px 0.5rem 0;
 }
+.finder-search-bar >>> .mini input{
+	padding:0;margin:0;line-height:100%;height:100%;
+}
 .finder-user-header{
 	border-top: 1px solid #ccc;
 }

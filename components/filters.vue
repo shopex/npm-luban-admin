@@ -48,8 +48,32 @@
 		    	</template>
 		    </select>
 		</template>
+		<template v-else-if="search.type=='begintime'">
+			<select name="mode[]" v-model="search.mode">
+		    	<option value="=">=</option>
+		    	<option value="gt">&gt;</option>
+		    	<option value="lt">&lt;</option>
+		    </select>
+		     <el-date-picker
+		           v-model="daterange"
+		           type="date"
+		           v-on:change="changeddate2(idx)" 
+		           placeholder="选择日期">
+		         </el-date-picker>
+		</template>
+		<template v-else-if="search.type=='betweentime'">
+		     <el-date-picker 
+		     	type="daterange"
+		     	size="mini"
+		     	class="mini"
+      			range-separator="-"
+      			start-placeholder="开始日期"
+      			end-placeholder="结束日期"
+      			v-on:change="changeddate(idx)" 
+      			v-model="daterange" ></el-date-picker>
+		</template>
 		<template  v-else>
-	    	<input type="text" name="value[]" v-model="search.value" v-on:change="changed()"/>
+			   <input type="text" name="value[]" v-model="search.value" v-on:change="changed()"/>
 	    </template>
 	  </div>
 	</div>
@@ -61,15 +85,40 @@
 .btn{
     line-height: 1;
     margin-left: 2.5rem;
+
 }
 </style>
 
 <script>
 export default {
 	props: ["searchs"],
+	data(){
+		return{
+			daterange:'',
+		}
+	},
 	methods: {
 		changed (){
 			this.$emit('change');
+		},
+		changeddate (idx){
+			var db = this.format(this.daterange[0])
+			var de = this.format(this.daterange[1])
+			this.searchs[idx].value = db+'-'+de;
+			this.searchs[idx].mode = '#'
+			this.changed();
+		},
+		changeddate2 (idx){
+			var db = this.format(this.daterange)
+			this.searchs[idx].value = db.indexOf('1970')>=0? '': db;
+			this.changed();
+		},
+		format(val){
+			    var d = new Date(val);
+			    var year = d.getFullYear();
+			    var month = d.getMonth() + 1;
+			    var day = d.getDate() <10 ? '0' + d.getDate() : '' + d.getDate();
+			    return year+ '/' + month + '/' + day
 		},
 		data (){
 			var filters = [];
