@@ -54,11 +54,19 @@
 						</li>
 					  </ul>
 					</span>
+					<button class="btn btn-default" v-on:click="first_page()" v-bind:disabled="finder.data.currentPage==1">
+						首页
+					</button>
+
 					<button class="btn btn-default" v-on:click="go_page(-1, $event)" v-bind:disabled="finder.data.currentPage==1">
 						<i class="glyphicon glyphicon-menu-left"></i>
 					</button>
 					<button class="btn btn-default" v-on:click="go_page(1, $event)" v-bind:disabled="finder.data.hasMorePages==false">
 						<i class="glyphicon glyphicon-menu-right"></i>
+					</button>
+
+					<button class="btn btn-default" v-on:click="last_page()" v-bind:disabled="finder.data.hasMorePages==false">
+						末页
 					</button>
 				</div>
 			</div>
@@ -166,7 +174,6 @@
 								<span v-else :title="item[col_id]">{{item[col_id]}}</span>
 							</td>
 							<td></td>
-
 						</tr>
 					</table>
 				</div>
@@ -779,6 +786,14 @@ export default {
 		go_page (v, ev){
 			ev.stopPropagation();
 			this.reload(this.finder.data.currentPage+v);
+		},
+		first_page(){
+			ev.stopPropagation();
+			this.reload(1);
+		},
+		last_page(){
+			ev.stopPropagation();
+			this.reload(Math.ceil(this.finder.data.totalPage/this.finder.data.currentPage));
 		},
 		select_tab (tab_id){
 			this.finder.tab_id = tab_id;
