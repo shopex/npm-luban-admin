@@ -8,6 +8,7 @@
       v-model="selectedop"
       :expand-trigger="acttype"
       @active-item-change="itemChange"
+      :change-on-select="changeselect"
     @change="handleChange">
     ></el-cascader>
   </div>
@@ -78,12 +79,22 @@
         default () {
           return ""
         },
+      },
+      changeselect:{
+        type:Boolean,
+        default () {
+          return false
+        },
       }
+
     },
 
      methods: {
       handleChange(value) {
-          this.$emit('selected-change',value)
+        var that = this
+        if(!this.changeselect) return;
+        this.itemChange(value)
+          
       },
       itemChange(v){
         var that = this;
@@ -112,6 +123,7 @@
                   k=0;
                   finderItem(that.regionJson);
                   obj.children = response;
+                  that.$emit('selected-change',v)
               }
               resolve('succ')
           });

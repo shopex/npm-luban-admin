@@ -72,6 +72,9 @@
       			v-on:change="changeddate(idx)" 
       			v-model="daterange" ></el-date-picker>
 		</template>
+		<template v-else-if="search.type=='address'">
+		     <cascader changeselect  @selected-change="blurcasca(idx,$event)"></cascader>
+		</template>
 		<template  v-else>
 			   <input type="text" name="value[]" v-model="search.value" v-on:change="changed()"/>
 	    </template>
@@ -98,6 +101,18 @@ export default {
 		}
 	},
 	methods: {
+		blurcasca(idx,e){
+			var str = ''
+			for(var i=0;i<e.length;i++){
+				if(i==e.length-1){
+					str=str+e[i];
+					break;	
+				} 
+				str=str+e[i]+'/'
+			}
+			this.searchs[idx].value = str;
+			this.changed();
+		},
 		changed (){
 			this.$emit('change');
 		},

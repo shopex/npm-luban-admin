@@ -1,5 +1,7 @@
 # npm-luban-admin
 
+#filters的地址搜索type类型为address
+
 组件引用！！
  <selector></selector>  下拉框
  <luban-input></luban-input>  输入框（可以邮箱、密码、手机号验证）；可以将input由’inputtype‘设置为’textarea‘类型
