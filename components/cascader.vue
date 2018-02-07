@@ -74,6 +74,12 @@
           return ""
         },
       },
+      baseurl: {
+        type: String,
+        default () {
+          return "/getRegion"
+        },
+      },
       size: {
         type: String,
         default () {
@@ -110,7 +116,7 @@
           }
           $.ajax({
             'type':'get',
-            'url': pro+'//'+host+'/getRegion?itemid='+that.itemid,
+            'url': pro+'//'+host+that.baseurl+'?itemid='+that.itemid,
             complete (){
               // that.items_loading = false;
               // 今天真jiba累！

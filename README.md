@@ -47,6 +47,7 @@
     selectedval:初始值,
     options:联级选择数据（可以不传，不传默认为地址选择器）,
     size:可选 'large','samll','mini',
+    baseurl:'请求联级加载的路径字段（不需要host）'（默认为地址选择：’/getRegion‘）
  }
  5.<el-date-picker></el-date-picker> 参数：
  {
