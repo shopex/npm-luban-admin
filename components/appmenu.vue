@@ -8,7 +8,7 @@
 		<a :style="{'padding-left': (depth*deprem)+'rem'}" 
 			v-if="item.items" v-on:click="toggle(i, $event)">{{item.label}}</a>
 		<a :style="{'padding-left': (depth*deprem)+'rem'}"
-			v-else v-bind:href="item.link" @click="changetit(item.label)" :target="'window:'+(path?(path+'-'+i):i)">
+			v-else v-bind:href="item.link" @click="changetit(item.label, $event)" :target="'window:'+(path?(path+'-'+i):i)">
 			{{item.label}}
 		</a>
 		<appmenu :level="depth+1" @changetit="changetit" :menus="item.items" :path="path?(path+'-'+i):i"></appmenu>
@@ -30,6 +30,9 @@ ul.appmenu{
 	>li{
 		position: relative;
 
+			&.active{
+				background: $menu-hover-color;
+			}
 		>a{
 			line-height: $menu-label-height;
 			height: $menu-label-height;
@@ -42,7 +45,7 @@ ul.appmenu{
 		>a:hover{
 			background: $menu-hover-color;
 		}
-
+		
 		>.icon{
 			position: absolute;
 			color: $menu-icon-color;
@@ -78,8 +81,14 @@ export default {
 		console.log(this.menus)
 	},
 	methods: {
-		changetit(v){
+		changetit(v,e){
 			this.$emit('changetit',v)
+			if(e){
+				$(e.target).parent('li').addClass('active')
+			}else{
+				$('.appmenu').find('li').removeClass('active')
+			}
+			
 		},
 		toggle (i, e){
 			var that = this;
