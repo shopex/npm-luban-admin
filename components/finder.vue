@@ -66,44 +66,7 @@
 							</td>
 						</tr>
 					</table>
-					<div class="finder-content-left" ref="left" v-on:scroll="scrollLeft" >
-						<table class="finder-body"
-							v-if="finder.data"
-							 ref="left_body"
-							v-on:mouseup="sel_mup($event)"
-							v-bind:class="{'unselectable': unselectable}">
-
-							<tr class="finder-row"
-										v-for="(item,idx) in finder.data.items"
-										v-on:mouseout="sel_mout(idx,$event)"
-										v-on:mouseover="sel_mover(idx,$event)"
-										v-on:click="toggle_detail(idx, $event)"
-										v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
-									<td class="col-sel">
-										<label class="finder-col-sel"
-											v-on:mousedown="sel_mdown(idx,$event)"
-											v-if="select_mode=='multi'">
-											<input type="checkbox" v-model="checkbox[idx]" />
-										</label>
-										<label class="finder-col-sel" v-else-if="select_mode=='single'">
-											 <input type="radio"
-													@click="radio_check(idx)"
-													name="finder-select"
-													:value="item.$id" v-model="radio" />
-										</label>
-									</td>
-									<td v-for="(col, col_id) in finder.cols"
-										v-bind:class="col_class[col_id]"
-										v-if="!col.hidden && col.lock">
-										<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
-											{{item[col_id].date}}
-										</span>
-										<span v-else-if="col.html" v-html="item[col_id]"></span>
-										<span v-else :title="item[col_id]">{{item[col_id]}}</span>
-									</td>
-							</tr>
-						</table>
-					</div>
+					
 					<table class="finder-title finder-title-right" ref="right_title">
 						<tr class="finder-row">
 							<td v-for="(col, col_id) in finder.cols"
@@ -114,32 +77,72 @@
 							<td></td>
 						</tr>
 					</table>
-					<div class="finder-content-right" v-on:scroll="scrollRight" ref="right">
-						<table class="finder-body"
-							v-if="finder.data"
-							ref="right_body"
-							v-on:mouseup="sel_mup($event)"
-							v-bind:class="{'unselectable': unselectable}">
+					<div class="content-box">
+						<div v-if="showbtn && selected.length>0" class="showbtn">已选择{{selected.length}}条数据，是否选择<span @click="selall">全部所有数据</span></div>
+						<div class="finder-content-left" ref="left" v-on:scroll="scrollLeft" >
+							<table class="finder-body"
+								v-if="finder.data"
+								 ref="left_body"
+								v-on:mouseup="sel_mup($event)"
+								v-bind:class="{'unselectable': unselectable}">
 
-							<tr class="finder-row"
-										v-for="(item,idx) in finder.data.items"
-										v-on:click="toggle_detail(idx, $event)"
-										v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
+								<tr class="finder-row"
+											v-for="(item,idx) in finder.data.items"
+											v-on:mouseout="sel_mout(idx,$event)"
+											v-on:mouseover="sel_mover(idx,$event)"
+											v-on:click="toggle_detail(idx, $event)"
+											v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
+										<td class="col-sel">
+											<label class="finder-col-sel"
+												v-on:mousedown="sel_mdown(idx,$event)"
+												v-if="select_mode=='multi'">
+												<input type="checkbox" v-model="checkbox[idx]" />
+											</label>
+											<label class="finder-col-sel" v-else-if="select_mode=='single'">
+												 <input type="radio"
+														@click="radio_check(idx)"
+														name="finder-select"
+														:value="item.$id" v-model="radio" />
+											</label>
+										</td>
+										<td v-for="(col, col_id) in finder.cols"
+											v-bind:class="col_class[col_id]"
+											v-if="!col.hidden && col.lock">
+											<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
+												{{item[col_id].date}}
+											</span>
+											<span v-else-if="col.html" v-html="item[col_id]"></span>
+											<span v-else :title="item[col_id]">{{item[col_id]}}</span>
+										</td>
+								</tr>
+							</table>
+						</div>
+						<div class="finder-content-right" v-on:scroll="scrollRight" ref="right">
+							<table class="finder-body"
+								v-if="finder.data"
+								ref="right_body"
+								v-on:mouseup="sel_mup($event)"
+								v-bind:class="{'unselectable': unselectable}">
 
-								<td v-for="(col, col_id) in finder.cols"
-									 v-bind:class="col_class[col_id]"
-									 v-if="!col.hidden && !col.lock">
-									<span v-if="typeof(item[col_id])=='object' && item[col_id] && item[col_id].date">
-										{{item[col_id].date}}
-									</span>
-									<span v-else-if="col.html" v-html="item[col_id]"></span>
-									<span v-else :title="item[col_id]">{{item[col_id]}}</span>
-								</td>
-								<td></td>
-							</tr>
-						</table>
+								<tr class="finder-row"
+											v-for="(item,idx) in finder.data.items"
+											v-on:click="toggle_detail(idx, $event)"
+											v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
+
+									<td v-for="(col, col_id) in finder.cols"
+										 v-bind:class="col_class[col_id]"
+										 v-if="!col.hidden && !col.lock">
+										<span v-if="typeof(item[col_id])=='object' && item[col_id] && item[col_id].date">
+											{{item[col_id].date}}
+										</span>
+										<span v-else-if="col.html" v-html="item[col_id]"></span>
+										<span v-else :title="item[col_id]">{{item[col_id]}}</span>
+									</td>
+									<td></td>
+								</tr>
+							</table>
+						</div>
 					</div>
-					
 					<div class="finder-pager" v-if="finder.data" ref="pager">
 						<span class="dropdown">
 						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
@@ -163,7 +166,7 @@
 							</li>
 						  </ul>
 						</span>
-						<button class="btn btn-default" v-on:click="first_page()" v-bind:disabled="finder.data.currentPage==1">
+						<button class="btn btn-default" v-on:click="first_page($event)" v-bind:disabled="finder.data.currentPage==1">
 							首页
 						</button>
 
@@ -174,7 +177,7 @@
 							<i class="glyphicon glyphicon-menu-right"></i>
 						</button>
 
-						<button class="btn btn-default" v-on:click="last_page()" v-bind:disabled="finder.data.hasMorePages==false">
+						<button class="btn btn-default" v-on:click="last_page($event)" v-bind:disabled="finder.data.hasMorePages==false">
 							末页
 						</button>
 					</div>
@@ -192,6 +195,7 @@
 									<input type="hidden" name="_token" v-bind:value="csrf_token">
 									<input type="hidden" name="action_id" v-bind:value="batch_action_id" />
 									<input type="hidden" name="id[]" v-bind:value="id" v-for="id in selected" />
+									<input type="hidden" v-if="showfilters" name="filtersarr" v-bind:value="filtersarr"/>
 
 									<div class="btn-group" role="group">
 										<button v-for="(action, idx) in finder.batchActions"
@@ -260,10 +264,9 @@ $finder-scrollbar-size: 12px;
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 .finder-content-left{
-    bottom: $finder-scrollbar-size;
-    top: $finder-title-height;
+   
 }
-.finder-content-right{
+.content-box{
 	top: $finder-title-height;
 }
 .finder-row:hover{
@@ -350,8 +353,6 @@ table{
 .finder-content-left{
 	position: absolute;
 	left: 0;
-	overflow-y: scroll;
-	overflow-x: hidden;
 	-ms-overflow-style: none;
 	overflow: -moz-scrollbars-none;
     z-index: 10;
@@ -364,11 +365,14 @@ table{
 	z-index: 9;
 }
 .finder-content-right{
+	
+}
+.content-box{
 	position: absolute;
     left: 0;
     right: 0;
     bottom: 50px;
-	overflow: auto;
+	overflow: auto; 
 }
 .finder-title{
 	position: absolute;
@@ -589,6 +593,18 @@ height: 45px;
   transform: translateY(100%);
   opacity: 0;
 }
+.showbtn{
+	position: absolute;
+	top:0;left:0;
+	width:100%;
+	text-align: center;
+	font-size:12px;
+	background:#fff;
+}
+.showbtn span{
+	cursor: pointer;
+	color:green;
+}
 </style>
 
 <script>
@@ -708,8 +724,11 @@ export default {
 				for(var i=0;i<this.finder.data.items.length;i++){
 					this.$set(this.checkbox, i, true);
 				}
+				this.showbtn=true;
 			}else{
 				this.checkbox = [];
+				this.showbtn=false;
+				this.showfilters=false;
 			}
 		},
 		toggle_col (id){
@@ -790,13 +809,13 @@ export default {
 			ev.stopPropagation();
 			this.reload(this.finder.data.currentPage+v);
 		},
-		first_page(){
+		first_page(ev){
 			ev.stopPropagation();
 			this.reload(1);
 		},
-		last_page(){
+		last_page(ev){
 			ev.stopPropagation();
-			this.reload(Math.ceil(this.finder.data.totalPage/this.finder.data.currentPage));
+			this.reload(Math.ceil(this.finder.data.total/this.finder.data.perPage));
 		},
 		select_tab (tab_id){
 			this.finder.tab_id = tab_id;
@@ -883,7 +902,12 @@ export default {
 			if(!target){
 				this.$nextTick(function(){this.$refs.formbtn.submit();})
 			}
-		}
+		},
+		selall(){
+			this.filtersarr = this.$refs.filters? this.$refs.filters.data() : []
+			this.showfilters = true;
+			this.showbtn = false;
+		},
 	  },
 	  data (){
 	  	return {
@@ -910,7 +934,10 @@ export default {
 			batch_select_mode: false,
 			batch_select_value: undefined,
 			batch_select_lastidx: 0,
-			masker_bgcolor: 'rgba(255,255,255,0.4)'
+			masker_bgcolor: 'rgba(255,255,255,0.4)',
+			filtersarr:'',
+			showfilters:false,
+			showbtn:false,
 	  	}
 	  }
 	}
