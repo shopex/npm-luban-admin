@@ -1,7 +1,7 @@
 <template>
 	<div>
 			<div class="finder-action-bar" ref="actionbar">
-				<div class="finder-tabber">
+				<!-- <div class="finder-tabber">
 					  <ul class="nav nav-tabs" role="tablist">
 					    <li v-for="(panel, tab_id) in finder.tabs" v-bind:class="{'active': tab_id==finder.tab_id}">
 					    	<a v-on:click="select_tab(tab_id)">{{panel.label}}</a>
@@ -29,48 +29,10 @@
 							{{action.label}}
 						</a>
 					</div>
-				</div>
+				</div> -->
 				
-				<div class="finder-pager" v-if="finder.data" ref="pager">
-					<span class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
-					    {{(finder.data.currentPage-1)*finder.data.perPage+1}}
-					    -
-					    {{Math.min(finder.data.currentPage*finder.data.perPage,finder.data.total)}}, 共{{finder.data.total}}项
-					  </button>
-					  <ul class="dropdown-menu">
-					    <li v-for="(sort, idx) in finder.sorts">
-						    <a v-on:click="finder.sort_id=idx;reload()">
-						    	{{sort.label}}
-						    	<i class="glyphicon glyphicon-ok" v-if="idx==finder.sort_id"></i>
-						    </a>
-					    </li>
-					    <li v-if="finder.sorts && finder.sorts.length>0" role="separator" class="divider"></li>
-						<li v-for="(col, col_id) in finder.cols">
-							<a v-on:click="toggle_col(col_id)">
-								{{col.label}}
-								<i class="glyphicon glyphicon-ok" v-if="!col.hidden"></i>
-							</a>
-						</li>
-					  </ul>
-					</span>
-					<button class="btn btn-default" v-on:click="first_page()" v-bind:disabled="finder.data.currentPage==1">
-						首页
-					</button>
-
-					<button class="btn btn-default" v-on:click="go_page(-1, $event)" v-bind:disabled="finder.data.currentPage==1">
-						<i class="glyphicon glyphicon-menu-left"></i>
-					</button>
-					<button class="btn btn-default" v-on:click="go_page(1, $event)" v-bind:disabled="finder.data.hasMorePages==false">
-						<i class="glyphicon glyphicon-menu-right"></i>
-					</button>
-
-					<button class="btn btn-default" v-on:click="last_page()" v-bind:disabled="finder.data.hasMorePages==false">
-						末页
-					</button>
-				</div>
+				
 			</div>
-
 			<div class="finder-header" ref="header">
 				<form class="finder-search-bar" v-on:submit="reload()"
 					v-if="'workdesk'!=finder.tab_id && finder.searchs && finder.searchs.length>0">
@@ -85,160 +47,200 @@
 				</div>
 			</div>
 
-		<div class="finder-content" ref="content">
-			<div class="finder-list">
-				<table class="finder-title" ref="left_title" style="z-index:99">
-					<tr class="finder-row">
-						<td class="col-sel">
-							<label class="finder-col-sel" v-if="select_mode=='multi'">
-								<input type="checkbox" v-on:change="select_all" v-model="v_select_all" />
-							</label>
-							<label class="finder-col-sel" v-if="select_mode=='single'">
-								<input type="radio" style="visibility: hidden" />
-							</label>
-						</td>
-						<td v-for="(col, col_id) in finder.cols"
-							v-bind:class="col_class[col_id]"
-							v-if="!col.hidden && col.lock">
-							{{col.label}}
-						</td>
-					</tr>
-				</table>
-				<div class="finder-content-left" ref="left" v-on:scroll="scrollLeft" >
-					<table class="finder-body"
-						v-if="finder.data"
-						 ref="left_body"
-						v-on:mouseup="sel_mup($event)"
-						v-bind:class="{'unselectable': unselectable}">
+			<div class="finder-content" ref="content">
+				<div class="finder-list">
+					<table class="finder-title" ref="left_title" style="z-index:99">
+						<tr class="finder-row">
+							<td class="col-sel">
+								<label class="finder-col-sel" v-if="select_mode=='multi'">
+									<input type="checkbox" v-on:change="select_all" v-model="v_select_all" />
+								</label>
+								<label class="finder-col-sel" v-if="select_mode=='single'">
+									<input type="radio" style="visibility: hidden" />
+								</label>
+							</td>
+							<td v-for="(col, col_id) in finder.cols"
+								v-bind:class="col_class[col_id]"
+								v-if="!col.hidden && col.lock">
+								{{col.label}}
+							</td>
+						</tr>
+					</table>
+					<div class="finder-content-left" ref="left" v-on:scroll="scrollLeft" >
+						<table class="finder-body"
+							v-if="finder.data"
+							 ref="left_body"
+							v-on:mouseup="sel_mup($event)"
+							v-bind:class="{'unselectable': unselectable}">
 
-						<tr class="finder-row"
-									v-for="(item,idx) in finder.data.items"
-									v-on:mouseout="sel_mout(idx,$event)"
-									v-on:mouseover="sel_mover(idx,$event)"
-									v-on:click="toggle_detail(idx, $event)"
-									v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
-								<td class="col-sel">
-									<label class="finder-col-sel"
-										v-on:mousedown="sel_mdown(idx,$event)"
-										v-if="select_mode=='multi'">
-										<input type="checkbox" v-model="checkbox[idx]" />
-									</label>
-									<label class="finder-col-sel" v-else-if="select_mode=='single'">
-										 <input type="radio"
-												@click="radio_check(idx)"
-												name="finder-select"
-												:value="item.$id" v-model="radio" />
-									</label>
-								</td>
+							<tr class="finder-row"
+										v-for="(item,idx) in finder.data.items"
+										v-on:mouseout="sel_mout(idx,$event)"
+										v-on:mouseover="sel_mover(idx,$event)"
+										v-on:click="toggle_detail(idx, $event)"
+										v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
+									<td class="col-sel">
+										<label class="finder-col-sel"
+											v-on:mousedown="sel_mdown(idx,$event)"
+											v-if="select_mode=='multi'">
+											<input type="checkbox" v-model="checkbox[idx]" />
+										</label>
+										<label class="finder-col-sel" v-else-if="select_mode=='single'">
+											 <input type="radio"
+													@click="radio_check(idx)"
+													name="finder-select"
+													:value="item.$id" v-model="radio" />
+										</label>
+									</td>
+									<td v-for="(col, col_id) in finder.cols"
+										v-bind:class="col_class[col_id]"
+										v-if="!col.hidden && col.lock">
+										<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
+											{{item[col_id].date}}
+										</span>
+										<span v-else-if="col.html" v-html="item[col_id]"></span>
+										<span v-else :title="item[col_id]">{{item[col_id]}}</span>
+									</td>
+							</tr>
+						</table>
+					</div>
+					<table class="finder-title finder-title-right" ref="right_title">
+						<tr class="finder-row">
+							<td v-for="(col, col_id) in finder.cols"
+								v-bind:class="col_class[col_id]"
+								v-if="!col.hidden && !col.lock">
+								{{col.label}}
+							</td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="finder-content-right" v-on:scroll="scrollRight" ref="right">
+						<table class="finder-body"
+							v-if="finder.data"
+							ref="right_body"
+							v-on:mouseup="sel_mup($event)"
+							v-bind:class="{'unselectable': unselectable}">
+
+							<tr class="finder-row"
+										v-for="(item,idx) in finder.data.items"
+										v-on:click="toggle_detail(idx, $event)"
+										v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
+
 								<td v-for="(col, col_id) in finder.cols"
-									v-bind:class="col_class[col_id]"
-									v-if="!col.hidden && col.lock">
-									<span v-if="typeof(item[col_id])=='object' && item[col_id].date">
+									 v-bind:class="col_class[col_id]"
+									 v-if="!col.hidden && !col.lock">
+									<span v-if="typeof(item[col_id])=='object' && item[col_id] && item[col_id].date">
 										{{item[col_id].date}}
 									</span>
 									<span v-else-if="col.html" v-html="item[col_id]"></span>
 									<span v-else :title="item[col_id]">{{item[col_id]}}</span>
 								</td>
-						</tr>
-					</table>
-				</div>
-				<table class="finder-title finder-title-right" ref="right_title">
-					<tr class="finder-row">
-						<td v-for="(col, col_id) in finder.cols"
-							v-bind:class="col_class[col_id]"
-							v-if="!col.hidden && !col.lock">
-							{{col.label}}
-						</td>
-						<td></td>
-					</tr>
-				</table>
-				<div class="finder-content-right" v-on:scroll="scrollRight" ref="right">
-					<table class="finder-body"
-						v-if="finder.data"
-						ref="right_body"
-						v-on:mouseup="sel_mup($event)"
-						v-bind:class="{'unselectable': unselectable}">
-
-						<tr class="finder-row"
-									v-for="(item,idx) in finder.data.items"
-									v-on:click="toggle_detail(idx, $event)"
-									v-bind:class="{'selected':(checkbox[idx] || radio==item.$id), 'detail':current_detail==idx}">
-
-							<td v-for="(col, col_id) in finder.cols"
-								 v-bind:class="col_class[col_id]"
-								 v-if="!col.hidden && !col.lock">
-								<span v-if="typeof(item[col_id])=='object' && item[col_id] && item[col_id].date">
-									{{item[col_id].date}}
-								</span>
-								<span v-else-if="col.html" v-html="item[col_id]"></span>
-								<span v-else :title="item[col_id]">{{item[col_id]}}</span>
-							</td>
-							<td></td>
-						</tr>
-					</table>
-				</div>
-
-				<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
-					<div class="finder-batch-action-bar" v-if="selected.length>0">
-						<div>
-							<span>{{selected.length}}</span>
-
-							<form ref="formbtn" v-bind:target="batch_action_target"
-								  v-bind:data-modal-confirm="batch_action_confirm"
-								  method="POST">
-								<input type="hidden" name="finder_request" value="batch_action" />
-								<input type="hidden" name="_token" v-bind:value="csrf_token">
-								<input type="hidden" name="action_id" v-bind:value="batch_action_id" />
-								<input type="hidden" name="id[]" v-bind:value="id" v-for="id in selected" />
-
-								<div class="btn-group" role="group">
-									<button v-for="(action, idx) in finder.batchActions"
-											v-on:click="submit(idx, action.target, action.confirm,action.url, $event)"
-											type="submit"
-											class="btn btn-default specialbtn">
-											{{action.label}}
-									</button>
-								</div>
-
-								<button v-if="'workdesk'==finder.tab_id" v-on:click="del_workdesk($event)" class="btn btn-default">移出操作台</button>
-								<button v-else v-on:click="put_workdesk($event)" class="btn btn-default">放入操作台</button>
-							</form>
-						</div>
+								<td></td>
+							</tr>
+						</table>
 					</div>
-				</transition>
-			</div>
+					
+					<div class="finder-pager" v-if="finder.data" ref="pager">
+						<span class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
+						    {{(finder.data.currentPage-1)*finder.data.perPage+1}}
+						    -
+						    {{Math.min(finder.data.currentPage*finder.data.perPage,finder.data.total)}}, 共{{finder.data.total}}项
+						  </button>
+						  <ul class="dropdown-menu">
+						    <li v-for="(sort, idx) in finder.sorts">
+							    <a v-on:click="finder.sort_id=idx;reload()">
+							    	{{sort.label}}
+							    	<i class="glyphicon glyphicon-ok" v-if="idx==finder.sort_id"></i>
+							    </a>
+						    </li>
+						    <li v-if="finder.sorts && finder.sorts.length>0" role="separator" class="divider"></li>
+							<li v-for="(col, col_id) in finder.cols">
+								<a v-on:click="toggle_col(col_id)">
+									{{col.label}}
+									<i class="glyphicon glyphicon-ok" v-if="!col.hidden"></i>
+								</a>
+							</li>
+						  </ul>
+						</span>
+						<button class="btn btn-default" v-on:click="first_page()" v-bind:disabled="finder.data.currentPage==1">
+							首页
+						</button>
 
-			<div class="finder-detail" ref="detail" v-if="current_detail!=undefined">
-			  <span class="close-btn" @click="current_detail=undefined">
-			  	<i class="glyphicon glyphicon-remove-circle"></i>
-			  </span>
-			  <ul class="nav nav-tabs" role="tablist">
-			    <li v-for="(panel, panel_id) in finder.infoPanels"
-			    	v-bind:class="{'active': panel_id==current_panel}">
-			    	<a v-on:click="show_panel(current_detail, panel_id)">{{panel.label}}</a>
-			    </li>
-			  </ul>
-			  <div class="tab-content">
-			    <div role="tabpanel" class="tab-pane active"
-			    	v-for="(panel, panel_id) in finder.infoPanels"
-			    	v-if="panel_id==current_panel">
-			    	<div class="finder-detail-content" v-html="finder.data.items[current_detail].panels[panel_id]"></div>
-			    </div>
-			  </div>
-			</div>
+						<button class="btn btn-default" v-on:click="go_page(-1, $event)" v-bind:disabled="finder.data.currentPage==1">
+							<i class="glyphicon glyphicon-menu-left"></i>
+						</button>
+						<button class="btn btn-default" v-on:click="go_page(1, $event)" v-bind:disabled="finder.data.hasMorePages==false">
+							<i class="glyphicon glyphicon-menu-right"></i>
+						</button>
 
-			<div
-				v-show="items_loading"
-				class="finder-masker"
-				ref="loading"
-				v-bind:style="{'background': masker_bgcolor}">
-				<div class="loading">
-				  <div class="bounce1"></div>
-				  <div class="bounce2"></div>
-				  <div class="bounce3"></div>
+						<button class="btn btn-default" v-on:click="last_page()" v-bind:disabled="finder.data.hasMorePages==false">
+							末页
+						</button>
+					</div>
+				</div>
+
+					<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
+						<div class="finder-batch-action-bar" v-if="selected.length>0">
+							<div>
+								<span>{{selected.length}}</span>
+
+								<form ref="formbtn" v-bind:target="batch_action_target"
+									  v-bind:data-modal-confirm="batch_action_confirm"
+									  method="POST">
+									<input type="hidden" name="finder_request" value="batch_action" />
+									<input type="hidden" name="_token" v-bind:value="csrf_token">
+									<input type="hidden" name="action_id" v-bind:value="batch_action_id" />
+									<input type="hidden" name="id[]" v-bind:value="id" v-for="id in selected" />
+
+									<div class="btn-group" role="group">
+										<button v-for="(action, idx) in finder.batchActions"
+												v-on:click="submit(idx, action.target, action.confirm,action.url, $event)"
+												type="submit"
+												class="btn btn-default specialbtn">
+												{{action.label}}
+										</button>
+									</div>
+
+									<button v-if="'workdesk'==finder.tab_id" v-on:click="del_workdesk($event)" class="btn btn-default">移出操作台</button>
+									<button v-else v-on:click="put_workdesk($event)" class="btn btn-default">放入操作台</button>
+								</form>
+							</div>
+						</div>
+					</transition>
+				</div>
+
+				<div class="finder-detail" ref="detail" v-if="current_detail!=undefined">
+				  <span class="close-btn" @click="current_detail=undefined">
+				  	<i class="glyphicon glyphicon-remove-circle"></i>
+				  </span>
+				  <ul class="nav nav-tabs" role="tablist">
+				    <li v-for="(panel, panel_id) in finder.infoPanels"
+				    	v-bind:class="{'active': panel_id==current_panel}">
+				    	<a v-on:click="show_panel(current_detail, panel_id)">{{panel.label}}</a>
+				    </li>
+				  </ul>
+				  <div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active"
+				    	v-for="(panel, panel_id) in finder.infoPanels"
+				    	v-if="panel_id==current_panel">
+				    	<div class="finder-detail-content" v-html="finder.data.items[current_detail].panels[panel_id]"></div>
+				    </div>
+				  </div>
+				</div>
+
+				<div
+					v-show="items_loading"
+					class="finder-masker"
+					ref="loading"
+					v-bind:style="{'background': masker_bgcolor}">
+					<div class="loading">
+					  <div class="bounce1"></div>
+					  <div class="bounce2"></div>
+					  <div class="bounce3"></div>
+					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 </template>
 <style scoped lang="scss">
@@ -365,7 +367,7 @@ table{
 	position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 50px;
 	overflow: auto;
 }
 .finder-title{
@@ -535,9 +537,11 @@ table{
 	display: flex;
 }
 .finder-pager{
-	flex:1 0;
-	text-align: right;
-	white-space: nowrap;
+position: absolute;
+bottom: 0;left:0;right:0;
+height: 45px;
+    white-space: nowrap;
+    text-align: center;
 }
 .finder-pager >.dropdown > .btn-default{
 	border: none;
@@ -554,7 +558,6 @@ table{
 }
 
 .finder-search-bar{
-	border-top: 1px solid #ccc;
 	padding: 0;
 	background: #f0f0f0;
 	overflow: hidden;
