@@ -443,7 +443,8 @@ export default {
 				win.min_restore();
 				this.active(id);
 			}else if(win.isfocus){
-				win.min();
+				// win.min();
+				return;
 			}else{
 				this.active(id);
 			}
