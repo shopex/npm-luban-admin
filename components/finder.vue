@@ -1,7 +1,7 @@
 <template>
 	<div>
 			<div class="finder-action-bar" ref="actionbar">
-				<!-- <div class="finder-tabber">
+				<div class="finder-tabber">
 					  <ul class="nav nav-tabs" role="tablist">
 					    <li v-for="(panel, tab_id) in finder.tabs" v-bind:class="{'active': tab_id==finder.tab_id}">
 					    	<a v-on:click="select_tab(tab_id)">{{panel.label}}</a>
@@ -29,7 +29,7 @@
 							{{action.label}}
 						</a>
 					</div>
-				</div> -->
+				</div>
 				
 				
 			</div>
@@ -143,6 +143,8 @@
 							</table>
 						</div>
 					</div>
+					
+				</div>
 					<div class="finder-pager" v-if="finder.data" ref="pager">
 						<span class="dropdown">
 						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
@@ -181,8 +183,6 @@
 							末页
 						</button>
 					</div>
-				</div>
-
 					<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
 						<div class="finder-batch-action-bar" v-if="selected.length>0">
 							<div>
@@ -329,9 +329,12 @@ table{
 	background: #fff;
 }
 .finder-list{
-	position: relative;
-	flex:1 1;
-	overflow: hidden;
+	position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 50px;
+    overflow: auto;
 }
 .finder-detail{
 	flex:30rem 0;
@@ -370,9 +373,7 @@ table{
 .content-box{
 	position: absolute;
     left: 0;
-    right: 0;
-    bottom: 50px;
-	overflow: auto; 
+    bottom: 0; 
 }
 .finder-title{
 	position: absolute;
