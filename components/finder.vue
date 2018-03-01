@@ -578,11 +578,10 @@ height: 45px;
 	padding: 0;
 	background: #f0f0f0;
 	overflow: hidden;
-	margin-left: -2.5rem;
 }
 .finder-search-bar >>> .form-inline{
 	display: inline-block;
-	margin: 0 0 0 3rem;
+	margin: 0 0 0 2.5rem;
 }
 .finder-search-bar >>> input, .finder-search-bar >>> select, .finder-search-bar >>> label{
 	height: 2rem;
