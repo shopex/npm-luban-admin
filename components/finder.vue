@@ -30,8 +30,6 @@
 						</a>
 					</div>
 				</div>
-				
-				
 			</div>
 			<div class="finder-header" ref="header">
 				<form class="finder-search-bar" v-on:submit="reload()"
@@ -143,76 +141,74 @@
 							</table>
 						</div>
 					</div>
-					
 				</div>
-					<div class="finder-pager" v-if="finder.data" ref="pager">
-						<span class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
-						    {{(finder.data.currentPage-1)*finder.data.perPage+1}}
-						    -
-						    {{Math.min(finder.data.currentPage*finder.data.perPage,finder.data.total)}}, 共{{finder.data.total}}项
-						  </button>
-						  <ul class="dropdown-menu">
-						    <li v-for="(sort, idx) in finder.sorts">
-							    <a v-on:click="finder.sort_id=idx;reload()">
-							    	{{sort.label}}
-							    	<i class="glyphicon glyphicon-ok" v-if="idx==finder.sort_id"></i>
-							    </a>
-						    </li>
-						    <li v-if="finder.sorts && finder.sorts.length>0" role="separator" class="divider"></li>
-							<li v-for="(col, col_id) in finder.cols">
-								<a v-on:click="toggle_col(col_id)">
-									{{col.label}}
-									<i class="glyphicon glyphicon-ok" v-if="!col.hidden"></i>
-								</a>
-							</li>
-						  </ul>
-						</span>
-						<button class="btn btn-default" v-on:click="first_page($event)" v-bind:disabled="finder.data.currentPage==1">
-							首页
-						</button>
+				<div class="finder-pager" v-if="finder.data" ref="pager">
+					<span class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true">
+					    {{(finder.data.currentPage-1)*finder.data.perPage+1}}
+					    -
+					    {{Math.min(finder.data.currentPage*finder.data.perPage,finder.data.total)}}, 共{{finder.data.total}}项
+					  </button>
+					  <ul class="dropdown-menu">
+					    <li v-for="(sort, idx) in finder.sorts">
+						    <a v-on:click="finder.sort_id=idx;reload()">
+						    	{{sort.label}}
+						    	<i class="glyphicon glyphicon-ok" v-if="idx==finder.sort_id"></i>
+						    </a>
+					    </li>
+					    <li v-if="finder.sorts && finder.sorts.length>0" role="separator" class="divider"></li>
+						<li v-for="(col, col_id) in finder.cols">
+							<a v-on:click="toggle_col(col_id)">
+								{{col.label}}
+								<i class="glyphicon glyphicon-ok" v-if="!col.hidden"></i>
+							</a>
+						</li>
+					  </ul>
+					</span>
+					<button class="btn btn-default" v-on:click="first_page($event)" v-bind:disabled="finder.data.currentPage==1">
+						首页
+					</button>
 
-						<button class="btn btn-default" v-on:click="go_page(-1, $event)" v-bind:disabled="finder.data.currentPage==1">
-							<i class="glyphicon glyphicon-menu-left"></i>
-						</button>
-						<button class="btn btn-default" v-on:click="go_page(1, $event)" v-bind:disabled="finder.data.hasMorePages==false">
-							<i class="glyphicon glyphicon-menu-right"></i>
-						</button>
+					<button class="btn btn-default" v-on:click="go_page(-1, $event)" v-bind:disabled="finder.data.currentPage==1">
+						<i class="glyphicon glyphicon-menu-left"></i>
+					</button>
+					<button class="btn btn-default" v-on:click="go_page(1, $event)" v-bind:disabled="finder.data.hasMorePages==false">
+						<i class="glyphicon glyphicon-menu-right"></i>
+					</button>
 
-						<button class="btn btn-default" v-on:click="last_page($event)" v-bind:disabled="finder.data.hasMorePages==false">
-							末页
-						</button>
-					</div>
-					<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
-						<div class="finder-batch-action-bar" v-if="selected.length>0">
-							<div>
-								<span>{{selected.length}}</span>
+					<button class="btn btn-default" v-on:click="last_page($event)" v-bind:disabled="finder.data.hasMorePages==false">
+						末页
+					</button>
+				</div>
+				<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
+					<div class="finder-batch-action-bar" v-if="selected.length>0">
+						<div>
+							<span>{{selected.length}}</span>
 
-								<form ref="formbtn" v-bind:target="batch_action_target"
-									  v-bind:data-modal-confirm="batch_action_confirm"
-									  method="POST">
-									<input type="hidden" name="finder_request" value="batch_action" />
-									<input type="hidden" name="_token" v-bind:value="csrf_token">
-									<input type="hidden" name="action_id" v-bind:value="batch_action_id" />
-									<input type="hidden" name="id[]" v-bind:value="id" v-for="id in selected" />
-									<input type="hidden" v-if="showfilters" name="filtersarr" v-bind:value="filtersarr"/>
+							<form ref="formbtn" v-bind:target="batch_action_target"
+								  v-bind:data-modal-confirm="batch_action_confirm"
+								  method="POST">
+								<input type="hidden" name="finder_request" value="batch_action" />
+								<input type="hidden" name="_token" v-bind:value="csrf_token">
+								<input type="hidden" name="action_id" v-bind:value="batch_action_id" />
+								<input type="hidden" name="id[]" v-bind:value="id" v-for="id in selected" />
+								<input type="hidden" v-if="showfilters" name="filtersarr" v-bind:value="filtersarr"/>
 
-									<div class="btn-group" role="group">
-										<button v-for="(action, idx) in finder.batchActions"
-												v-on:click="submit(idx, action.target, action.confirm,action.url, $event)"
-												type="submit"
-												class="btn btn-default specialbtn">
-												{{action.label}}
-										</button>
-									</div>
+								<div class="btn-group" role="group">
+									<button v-for="(action, idx) in finder.batchActions"
+											v-on:click="submit(idx, action.target, action.confirm,action.url, $event)"
+											type="submit"
+											class="btn btn-default specialbtn">
+											{{action.label}}
+									</button>
+								</div>
 
-									<button v-if="'workdesk'==finder.tab_id" v-on:click="del_workdesk($event)" class="btn btn-default">移出操作台</button>
-									<button v-else v-on:click="put_workdesk($event)" class="btn btn-default">放入操作台</button>
-								</form>
-							</div>
+								<button v-if="'workdesk'==finder.tab_id" v-on:click="del_workdesk($event)" class="btn btn-default">移出操作台</button>
+								<button v-else v-on:click="put_workdesk($event)" class="btn btn-default">放入操作台</button>
+							</form>
 						</div>
-					</transition>
-				</div>
+					</div>
+				</transition>
 
 				<div class="finder-detail" ref="detail" v-if="current_detail!=undefined">
 				  <span class="close-btn" @click="current_detail=undefined">
@@ -231,6 +227,7 @@
 				    	<div class="finder-detail-content" v-html="finder.data.items[current_detail].panels[panel_id]"></div>
 				    </div>
 				  </div>
+				  <div class="movecicle" @mousedown="movebeg($event)">&lt; &gt;</div>
 				</div>
 
 				<div
@@ -318,6 +315,17 @@ label{
 table{
 	table-layout:fixed
 }
+.movecicle{
+	display: none;
+	position: absolute;
+	top:50%;left:0;margin-top:-25px;margin-left:-25px;
+	border:1px solid #dcdccd;border-radius: 50%;
+	width:50px;height:50px;line-height: 50px;text-align: center;
+	background: #fff;cursor:move;
+}
+.finder-detail:hover .movecicle{
+	display: block;
+}
 .finder-content{
 	position: absolute;
 	top:0;
@@ -337,10 +345,14 @@ table{
     overflow: auto;
 }
 .finder-detail{
-	flex:30rem 0;
-	z-index: 100;
-	background: #fff;
-	position: relative;
+	flex: 30rem 0;
+    z-index: 100;
+    background: #fff;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width:35%;border-left: 1px solid #dcdcdc;
 }
 .finder-detail .close-btn{
 	display: block;
@@ -614,6 +626,7 @@ export default {
 	  	if(this.finder.batchActions && this.finder.batchActions.length>0){
 	  		this.select_mode = 'multi';
 	  	}
+	  	
 	  },
 	  computed: {
 	  	col_class (){
@@ -662,6 +675,19 @@ export default {
 	  	}
 	  },
 	  methods:{
+	  	movebeg(e){
+	  		var width = $('.finder-detail').width();
+	  		$(window).on('mousemove',function(v){
+	  			if(v.pageX<25) return;
+	  			var w = v.pageX-e.x;
+	  			if(w>width-100) return;
+	  			$('.finder-detail').css('width',width-w+'px')
+	  		});
+	  		$(window).on('mouseup',function(v){
+	  			$(window).unbind('mousemove');
+	  			$(window).unbind('mouseup');
+	  		});
+	  	},
 	  	scrollLeft(ev){
 	  		// $(this.$refs.left).scrollTop( $(this.$refs.right).scrollTop() );
 	  		this.$refs.right.scrollTop = this.$refs.left.scrollTop;
