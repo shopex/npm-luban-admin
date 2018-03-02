@@ -933,7 +933,10 @@ export default {
 			}
 		},
 		selall(){
-			this.filtersarr = this.$refs.filters? this.$refs.filters.data() : []
+			this.filtersarr = this.$refs.filters? this.$refs.filters.data() : [];
+			if(this.filtersarr){
+				this.filtersarr = JSON.stringify(this.filtersarr)
+			}
 			this.showfilters = true;
 			this.showbtn = false;
 		},
