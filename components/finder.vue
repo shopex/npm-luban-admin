@@ -47,6 +47,7 @@
 
 			<div class="finder-content" ref="content">
 				<div class="finder-list">
+					<div v-if="showbtn && selected.length>0" class="showbtn">已选择{{selected.length}}条数据，是否选择&nbsp;<span @click="selall">全部{{finder.data.total}}条数据</span></div>
 					<table class="finder-title" ref="left_title" style="z-index:99">
 						<tr class="finder-row">
 							<td class="col-sel">
@@ -76,7 +77,6 @@
 						</tr>
 					</table>
 					<div class="content-box">
-						<div v-if="showbtn && selected.length>0" class="showbtn">已选择{{selected.length}}条数据，是否选择<span @click="selall">全部所有数据</span></div>
 						<div class="finder-content-left" ref="left" v-on:scroll="scrollLeft" >
 							<table class="finder-body"
 								v-if="finder.data"
@@ -183,7 +183,7 @@
 				<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
 					<div class="finder-batch-action-bar" v-if="selected.length>0">
 						<div>
-							<span>{{selected.length}}</span>
+							<span>{{showfilters?finder.data.total:selected.length}}</span>
 
 							<form ref="formbtn" v-bind:target="batch_action_target"
 								  v-bind:data-modal-confirm="batch_action_confirm"
@@ -607,15 +607,18 @@ height: 45px;
 }
 .showbtn{
 	position: absolute;
-	top:0;left:0;
-	width:100%;
-	text-align: center;
-	font-size:12px;
-	background:#fff;
+	top:0;
+	left: 3rem;
+    text-align: center;
+    font-size: 12px;
+    background: #fff;
+    z-index: 999;
+    right: 3rem;
 }
 .showbtn span{
 	cursor: pointer;
-	color:green;
+	color:red;
+	font-weight: bold;
 }
 </style>
 

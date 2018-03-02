@@ -8,7 +8,7 @@
 		<div class="bottom" :class="{showmore:showmore}" >
 			<div class="form-inline" v-for="(search, idx) in searchs">
 			  <!-- label -->
-			  <div class="form-group">
+			  <div class="form-group" style="margin-right: -2px">
 			  	<template v-if="typeof(search.key)=='object'">
 				  	<select name="value[]" v-model="search.field" v-on:change="search.field&&(search.value||search.value==0)&&changed()">
 				  		<option value="" selected="selected">{{search.label}}</option>
@@ -100,6 +100,7 @@
 .filtersbox{
     background: #fff;
     border: 1px solid #dcdcdc;
+    border-top:none;
 }
 .filtersbox .top{
 	height:40px;
@@ -129,6 +130,7 @@
 }
 .form-group label{
 	/*color:#255AC1;*/
+	margin-right: 0px;
 }
 </style>
 
@@ -151,7 +153,6 @@ export default {
 			// 	} 
 			// 	str=str+e[i]+'/'
 			// }
-			console.log(str)
 			this.searchs[idx].value = str;
 			this.changed();
 		},

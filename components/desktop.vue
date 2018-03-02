@@ -31,8 +31,6 @@
 									@click.prevent="show(win.id)"
 									@mouseup.middle.prevent="close(win.id)">
 								{{win.title}}
-							<em class="left"></em>
-							<em class="right"></em>
 							</span>
 							<span class="taskbar-item-split"></span>
 							<span class="close" style="z-index:99999" @click.prevent="close(win.id)">X</span>
@@ -206,16 +204,12 @@
 	}
 	.taskbar-item .close{
 		position: absolute;
-		top: 0.9rem;
-		right: 1rem;
-		font-size: 1.3rem;
-		border: 2px solid #dcdcdc;
-		border-radius: 50%;
-		background: #dcdcdc;
+		top: 1.2rem;
+		    right: 1.4rem;
+    font-size: 1.3rem;
 	}
 	.taskbar-item-title{
 		flex: 1 1;
-		margin: 0 0.5rem;
 		font-size:1.2rem;
 		line-height: 2.2rem;
 		text-overflow: ellipsis;
@@ -224,48 +218,24 @@
 		white-space: nowrap;
 		max-width: $task-item-width;
 		justify-content:center;
-		background:#dcdcdc;
-		border-top:1px solid #999;
+		background:#fff;
 		position: relative;
 		height:2.2rem;
-		&:hover{
-			background:#eee;
-			em{
-				background:#eee;
-			}	
-		}
-		em{
-			position: absolute;
-		    height: 100%;
-		    width: 3.5rem;
-		    background: #dcdcdc;
-		    border-top: 1px solid #999;
-		    z-index: -1;
-		    &.right{
-		    	transform: rotate(55deg);
-		    	transform-origin: 0 0;
-			    right: -3.5rem;
-			    top: -1px;
-		    }
-		    &.left{
-		    	transform: rotate(-55deg);
-		    	transform-origin: right 0;
-			    left: -2.76rem;
-			    width:2.7rem;
-			    top: -1px;
-		    }
-		}
+		box-shadow: 10px -2px 5px #888888;
+		// &:hover{
+		// 	background:#eee;
+		// 	em{
+		// 		background:#eee;
+		// 	}	
+		// }
 
 	}
 	.active .taskbar-item-title{
 		// background: $topbar-active-bg;
-		cursor: default;
-		// border-color: $taskbar-border-active-color;
-			background:#fff;
-		em {
-			background:#fff;
-		}
+		background: #255AC1;
+		color:#fff;
 	}
+	.active .close{color:#fff;}
 	.taskbar-item-split{
 		flex: 1px 0;
 		background: transparent;
