@@ -1,11 +1,11 @@
 <template>
-<div class="filtersbox">
-	<div class="top">
+<div :class="{filtersbox:showtop}">
+	<div v-if="showtop" class="top">
 		<div class="tleft">查询</div>
 		<div class="tright" @click="showmore=!showmore">更多条件</div>
 	</div>
 	<div class="flexbox">
-		<div class="bottom" :class="{showmore:showmore}" >
+		<div class="bottom" :class="{showmore:showmore||!showtop}" >
 			<div class="form-inline" v-for="(search, idx) in searchs">
 			  <!-- label -->
 			  <div class="form-group" style="margin-right: -2px">
@@ -74,7 +74,7 @@
 		      			start-placeholder="开始日期"
 		      			end-placeholder="结束日期"
 		      			v-on:change="changeddate(idx)" 
-		      			v-model="daterange" ></el-date-picker>
+		      			v-model="daterange[idx]" ></el-date-picker>
 				</template>
 				<template v-else-if="search.type=='address'">
 				     <cascader style="width:250px;" ref="cascaderval" changeselect  @selected-change="blurcasca(idx,$event)"></cascader>
@@ -116,7 +116,7 @@
 	font-size:12px;
 	float: right;margin-right:30px;    margin-top: 15px;cursor:pointer;
 }
-.filtersbox .bottom{
+.bottom{
 	height:40px;
 	width:80%;
 	overflow: hidden;
@@ -125,7 +125,7 @@
 .bottom.showmore{
 	height:auto;
 }
-.filtersbox .flexbox{
+.flexbox{
 	display: flex;
 }
 .form-group label{
@@ -139,8 +139,18 @@ export default {
 	props: ["searchs"],
 	data(){
 		return{
-			daterange:'',
+			daterange:{},
+			daterange2:'',
 			showmore:false,
+			showtop:true,
+		}
+	},
+	mounted(){
+		if($(this.$el).parent().parent().hasClass('modal-header')) this.showtop = false;
+		for(var i=0; i<this.searchs.length; i++){
+			if(this.searchs[i].type=="betweentime"){
+				this.daterange[i] = '';
+			}
 		}
 	},
 	methods: {
@@ -160,14 +170,14 @@ export default {
 			this.$emit('change');
 		},
 		changeddate (idx){
-			var db = this.format(this.daterange[0])
-			var de = this.format(this.daterange[1])
+			var db = this.format(this.daterange[idx][0])
+			var de = this.format(this.daterange[idx][1])
 			this.searchs[idx].value = db+'-'+de;
 			this.searchs[idx].mode = '#'
 			this.changed();
 		},
 		changeddate2 (idx){
-			var db = this.format(this.daterange)
+			var db = this.format(this.daterange2)
 			this.searchs[idx].value = db.indexOf('1970')>=0? '': db;
 			this.changed();
 		},
