@@ -78,7 +78,6 @@ export default {
 		}
 	},
 	mounted(){
-		console.log(this.menus)
 	},
 	methods: {
 		changetit(v,e){
@@ -89,6 +88,9 @@ export default {
 				$('.appmenu').find('li').removeClass('active')
 			}
 			
+		},
+		changelabel(v){
+			console.log(v,568)
 		},
 		toggle (i, e){
 			var that = this;

@@ -12,7 +12,7 @@
 		<div class="deskmain">
 			<div class="sidepanel">
 				<div class="menus unselectable">
-					<appmenu @changetit="changetit" :menus="menus"></appmenu>
+					<appmenu ref="appmenu" @changetit="changetit" :menus="menus"></appmenu>
 				</div>
 				<div class="copyright">
 					<slot name="copyright"></slot>
@@ -28,7 +28,7 @@
 							:class="{active: win.isfocus}"
 							:key="win.id">
 							<span class="taskbar-item-title"
-									@click.prevent="show(win.id)"
+									@click.prevent="show(win.id,win.title)"
 									@mouseup.middle.prevent="close(win.id)">
 								{{win.title}}
 							</span>
@@ -221,7 +221,6 @@
 		background:#fff;
 		position: relative;
 		height:2.2rem;
-		box-shadow: 10px -2px 5px #888888;
 		// &:hover{
 		// 	background:#eee;
 		// 	em{
@@ -407,7 +406,8 @@ export default {
 			}
 			return false;
 		},
-		show(id){
+		show(id,wintit){
+			this.$refs.appmenu.changelabel(wintit)
 			var win = this.get_window_by_id(id);
 			if(win.is_min){
 				win.min_restore();
