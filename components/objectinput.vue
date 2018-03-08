@@ -29,13 +29,10 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<div class="input-finder-pager">
-					<div ref="finderPager"></div>
-				</div>
 		        <h4 class="modal-title">请选择</h4>
 		        <div class="searchbox"><filters :searchs="filterArr" @change="load" ref="filters"></filters></div>
 		      </div>
-		      <div class="modal-body" :style="{height:height}">
+		      <div class="modal-body" :style="{height:height}" style="position:relative;">
 		      	<div ref="finderHeader"></div>
 		      	<div ref="finderContent">
 		      		<div class="loading">
@@ -43,6 +40,9 @@
 					  <div class="bounce2"></div>
 					  <div class="bounce3"></div>
 					</div>
+		      	</div>
+		      	<div class="input-finder-pager">
+		      		<div ref="finderPager"></div>
 		      	</div>
 		      </div>
 		      <div class="modal-footer">
@@ -57,6 +57,12 @@
 </template>
 
 <style scoped>
+.input-finder-pager{
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	margin-left: -15rem;
+}
 .outter{
 	display: inline-block;
 	border:1px solid #ccc; 
@@ -126,11 +132,6 @@
 }
 .multiple .fade-enter,.multiple .fade-leave-to{
   opacity: 0
-}
-.input-finder-pager{
-	position: absolute;
-	right: 5rem;
-	top: 1rem;
 }
 </style>
 
@@ -233,6 +234,7 @@ export default {
 						$(that.$refs.finderContent).replaceWith(that.finder.$refs.content);
 						$(that.$refs.finderPager).replaceWith(that.finder.$refs.pager);
 						that.input_value();
+						console.log(that.finder.$refs.pager,99)
 					}
 				});
 				that.loading = true;
