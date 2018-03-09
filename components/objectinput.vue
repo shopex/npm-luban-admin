@@ -86,18 +86,20 @@
 }
 .searchbox{
 	position: absolute;
-	left: 9rem;
-	top: 1.3rem;
-	height: 36px;
-	width: 38rem;
-	overflow: auto;
+    left: 6rem;
+    top: 1rem;
+    height: 36px;
+    width: 44rem;
 }
 .searchbox >>> .form-inline{
 	display: inline-block;
     margin: 0 0 0 3rem;
 }
-.searchbox >>> .form-inline:first-child{
-	margin:0;
+.searchbox >>> .btn{
+    margin-top:0.3rem;
+}
+.searchbox >>> .form-group label{
+	 margin: 0.5rem 5px 0.5rem 0;
 }
 .outter .label>.glyphicon{
 	cursor: pointer;
