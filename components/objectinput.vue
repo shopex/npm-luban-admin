@@ -89,7 +89,7 @@
 	left: 9rem;
 	top: 1.3rem;
 	height: 36px;
-	width: 32rem;
+	width: 38rem;
 	overflow: auto;
 }
 .searchbox >>> .form-inline{

@@ -221,6 +221,7 @@
 		background:#fff;
 		position: relative;
 		height:2.2rem;
+		border-right: 1px solid #dcdcdc;
 		// &:hover{
 		// 	background:#eee;
 		// 	em{
