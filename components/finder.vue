@@ -179,6 +179,9 @@
 					<button class="btn btn-default" v-on:click="last_page($event)" v-bind:disabled="finder.data.hasMorePages==false">
 						末页
 					</button>
+					<button class="btn btn-default" v-on:click="reload(finder.data.currentPage)" >
+						刷新
+					</button>
 				</div>
 				<transition name="finder-slide-bottom" v-if="this.finder.batchActions && this.finder.batchActions.length>0 && !disable_workdesk">
 					<div class="finder-batch-action-bar" v-if="selected.length>0">
